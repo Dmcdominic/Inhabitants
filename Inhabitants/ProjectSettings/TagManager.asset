@@ -38,6 +38,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2099991709
+    locked: 0
+  - name: Map
+    uniqueID: 2040293797
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 4054925725
+    locked: 0
+  - name: Map UI
+    uniqueID: 3276113201
+    locked: 0
+  - name: HUD
+    uniqueID: 3636465397
     locked: 0
