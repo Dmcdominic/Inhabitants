@@ -12,11 +12,14 @@ public class reticle : MonoBehaviour {
     // Editor fields
     public player Owner;
 	public XboxController controller;
+    public LineRenderer line_to_active_region;
 
     // Private vars
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    private region current_region;
+    private region over_region;
+
+    private region active_region;
 
 
     // Init
@@ -24,6 +27,9 @@ public class reticle : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         sr.color = player_data.colors[(int)Owner];
+        line_to_active_region.startColor = player_data.colors[(int)Owner];
+        line_to_active_region.endColor = Color.black;
+        //line_to_active_region.
     }
 
     // Update is called once per frame
@@ -38,9 +44,44 @@ public class reticle : MonoBehaviour {
 
 		rb.position += velo * Time.deltaTime;
 
+        // TESTING
+        if (XCI.GetButtonDown(XboxButton.RightBumper, controller) && over_region != null) {
+            over_region.Owner = Owner;
+        }
+
         // Respond to button inputs
-        if (XCI.GetButtonDown(XboxButton.A, controller) && current_region != null) {
-            current_region.Owner = Owner;
+        if (XCI.GetButtonDown(XboxButton.A, controller) && over_region != null && over_region.Owner == Owner) {
+            active_region = over_region;
+        } else if (active_region != null && active_region.Owner != Owner) {
+            active_region = null;
+        } else if (!XCI.GetButton(XboxButton.A, controller)) {
+            if (active_region != null && active_region.Owner == Owner && over_region != null && active_region != over_region) {
+                // Call the "send units" function here
+                Debug.Log("Send units from region: " + active_region + " to " + over_region);
+                // TESTING - For now, send them instantly
+                if (active_region.units > 1) {
+                    int units_to_send = active_region.units / 2;
+                    active_region.units -= units_to_send;
+                    if (over_region.Owner == Owner) {
+                        over_region.units += units_to_send;
+                    } else {
+                        over_region.units -= units_to_send;
+                        if (over_region.units < 0) {
+                            over_region.units *= -1;
+                            over_region.Owner = Owner;
+                        } else if (over_region.units == 0) {
+                            over_region.Owner = player.none;
+                        }
+                    }
+                }
+            }
+            active_region = null;
+        }
+
+        line_to_active_region.enabled = (active_region != null);
+        if (active_region != null) {
+            Vector3 line_end_pos = (over_region != null && over_region != active_region) ? over_region.transform.position : transform.position;
+            line_to_active_region.SetPositions(new Vector3[] { active_region.transform.position, line_end_pos });
         }
     }
 
@@ -48,14 +89,14 @@ public class reticle : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         region Region = collision.GetComponent<region>();
         if (Region != null) {
-            current_region = Region;
+            over_region = Region;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
         region Region = collision.GetComponent<region>();
-        if (Region != null && Region == current_region) {
-            current_region = null;
+        if (Region != null && Region == over_region) {
+            over_region = null;
         }
     }
 }
