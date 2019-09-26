@@ -55,7 +55,7 @@ public class region : MonoBehaviour
 
         if (unit_to_send == 0)
         {
-            //throw error
+           //doesn't have enough units
 
         }
         else
@@ -66,6 +66,7 @@ public class region : MonoBehaviour
             x.start_owner = Owner;
             x.start_position = transform.position;
             x.units = unit_to_send;
+            units = units / 2;
             //assign the proper parameters
         }
     }

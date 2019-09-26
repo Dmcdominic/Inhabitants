@@ -64,9 +64,13 @@ public class reticle : MonoBehaviour {
             active_region = null;
         } else if (!XCI.GetButton(XboxButton.A, controller)) {
             if (active_region != null && active_region.Owner == Owner && over_region != null && active_region != over_region) {
+                active_region.send_units(over_region);
+                
+                
+                
                 // Call the "send units" function here
                 // TESTING - For now, send them instantly
-                if (active_region.units > 1) {
+               /* if (active_region.units > 1) {
                     int units_to_send = active_region.units / 2;
                     active_region.units -= units_to_send;
                     if (over_region.Owner == Owner) {
@@ -80,7 +84,7 @@ public class reticle : MonoBehaviour {
                             over_region.Owner = player.none;
                         }
                     }
-                }
+                }*/
             }
             active_region = null;
         }

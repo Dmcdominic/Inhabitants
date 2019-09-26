@@ -24,14 +24,14 @@ public class moving_units : MonoBehaviour
     void Update()
     {
         float ds = Time.deltaTime * movespeed;
-
+        
 
 
         //checks if the # of units moving has gone down to zero. Terminate if so.
         if (units <= 0)
         {
 
-            Destroy(this);
+            Destroy(this.gameObject);
         }
         else
         {
@@ -39,8 +39,8 @@ public class moving_units : MonoBehaviour
             if (Vector3.Distance(transform.position, target_region.transform.position) > ds)
             {
 
-
-                transform.Translate((target_region.transform.position - transform.position) * ds);
+                Vector3 direction = target_region.transform.position - transform.position;
+                transform.Translate(direction.normalized * ds);
 
             }
             else
@@ -66,14 +66,15 @@ public class moving_units : MonoBehaviour
 
                     }
                     else if (target_region.units == units)
-                    {//turn the region neutral-I'm not sure about this
+                    {//turn the region neutral
 
                         target_region.Owner = player.none;
+                        target_region.units = 0;
 
                     }
                     else
                     {
-                        target_region.units = target_region.units - units;
+                        target_region.units -= units;
 
 
                     }
@@ -81,7 +82,7 @@ public class moving_units : MonoBehaviour
 
                 }
 
-                Destroy(this);
+                Destroy(this.gameObject);
 
 
             }
