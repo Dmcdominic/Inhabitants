@@ -44,6 +44,14 @@ public class reticle : MonoBehaviour {
 
 		rb.position += velo * Time.deltaTime;
 
+        // The following is for human-player control, and does not apply to the Earth player
+        if (Owner == player.Earth) {
+            return;
+        }
+
+        // Update over_region using raycast, rather than trigger enter/exit
+        //Physics2D.Raycast(transform.position, Vector2.up, 0.01f, )
+
         // TESTING
         if (XCI.GetButtonDown(XboxButton.RightBumper, controller) && over_region != null) {
             over_region.Owner = Owner;
@@ -57,7 +65,6 @@ public class reticle : MonoBehaviour {
         } else if (!XCI.GetButton(XboxButton.A, controller)) {
             if (active_region != null && active_region.Owner == Owner && over_region != null && active_region != over_region) {
                 // Call the "send units" function here
-                Debug.Log("Send units from region: " + active_region + " to " + over_region);
                 // TESTING - For now, send them instantly
                 if (active_region.units > 1) {
                     int units_to_send = active_region.units / 2;
@@ -80,8 +87,12 @@ public class reticle : MonoBehaviour {
 
         line_to_active_region.enabled = (active_region != null);
         if (active_region != null) {
-            Vector3 line_end_pos = (over_region != null && over_region != active_region) ? over_region.transform.position : transform.position;
-            line_to_active_region.SetPositions(new Vector3[] { active_region.transform.position, line_end_pos });
+            Vector2 line_start_pos = active_region.transform.position;
+            Vector2 line_end_pos = (over_region != null && over_region != active_region) ? over_region.transform.position : transform.position;
+            Vector2 main_dir = line_end_pos - line_start_pos;
+            Vector2 perp_dir = new Vector2(-main_dir.y, main_dir.x).normalized;
+            Vector2 line_mid_pos = (line_end_pos - line_start_pos) / 2f + line_start_pos + perp_dir * 0.05f * main_dir.magnitude;
+            line_to_active_region.SetPositions(new Vector3[] { line_start_pos, line_mid_pos, line_end_pos });
         }
     }
 
