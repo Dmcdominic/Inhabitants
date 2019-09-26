@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   area: 10
+  movingUnits: {fileID: 1452559045005408091, guid: ec79b03465edc1040aa27030fc7fd27a,
+    type: 3}
   Owner: 0
   unit_text: {fileID: 362702776507753169}
 --- !u!60 &362702775240425632
