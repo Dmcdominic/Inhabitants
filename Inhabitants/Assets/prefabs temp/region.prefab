@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 362702775240425646}
   - component: {fileID: 362702775240425633}
   - component: {fileID: 362702775240425632}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: region
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 362702776507753183}
   - component: {fileID: 362702776507753182}
   - component: {fileID: 362702776507753169}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: unit text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
