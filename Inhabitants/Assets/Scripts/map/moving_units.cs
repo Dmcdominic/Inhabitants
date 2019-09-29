@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class moving_units : MonoBehaviour
 {
@@ -13,19 +14,26 @@ public class moving_units : MonoBehaviour
 
     public int units;
 
+    public TextMeshPro units_num;
+
+    public SpriteRenderer units_color;
+
     private float movespeed = 1;
     // Start is called before the first frame update
     void Start()
     {
-        
+        units_color = GetComponent<SpriteRenderer>();
+        units_color.color= player_data.colors[(int)start_owner];
     }
 
     // Update is called once per frame
     void Update()
     {
         float ds = Time.deltaTime * movespeed;
-        
 
+        units_num.text = units.ToString();
+        units_num.color = player_data.colors[(int)start_owner];
+        
 
         //checks if the # of units moving has gone down to zero. Terminate if so.
         if (units <= 0)
