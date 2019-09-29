@@ -47,7 +47,7 @@ public class region : MonoBehaviour
             return 0;
         }
         // return units_real / 20f;
-        return Mathf.Sqrt(units_real) / 5f;
+        return Mathf.Sqrt(units_real) / 7f + 0.2f;
     }
     public void send_units(region region_target)
     { //takes in region; units/2; prefab
