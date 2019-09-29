@@ -36,10 +36,10 @@ public class moving_units : MonoBehaviour
         else
         {
             //moves the units
-            if (Vector3.Distance(transform.position, target_region.transform.position) > ds)
+            if (Vector3.Distance(transform.position, target_region.centerpoint) > ds)
             {
 
-                Vector3 direction = target_region.transform.position - transform.position;
+                Vector3 direction = (Vector3)target_region.centerpoint - transform.position;
                 transform.Translate(direction.normalized * ds);
 
             }
