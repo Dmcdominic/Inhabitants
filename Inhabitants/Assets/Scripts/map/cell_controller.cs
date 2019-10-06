@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +16,13 @@ public class cell_controller : MonoBehaviour
 
     protected float time_since_tick = 0;
     protected float time_per_tick = 0.5f;
+
+    //Controls speed of entire tree progression system
+    public float growth_rate = 0.006f;
+    // >1 biases towards growth, <1 biases towards decay
+    public float growth_factor = 0.7f;
+    // random factor in growth speed
+    public float growth_random = 0.05f;
 
     // Start is called before the first frame update
     void Start()
@@ -44,16 +51,6 @@ public class cell_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        time_since_tick += Time.deltaTime;
-        while(time_since_tick > time_per_tick)
-        {
-            time_since_tick -= time_per_tick;
-            Tick();
-        }
-    }
-
-    void Tick()
-    {
         float[,] nextState = new float[HEIGHT, WIDTH];
         for (int i = 0; i < HEIGHT; i++)
         {
@@ -62,6 +59,7 @@ public class cell_controller : MonoBehaviour
                 if (on_map[i, j])
                 {
                     float sum = 0;
+                    int numNeighbors = 0;
                     for (int k = -1; k <= 1; k++)
                     {
                         for (int l = -1; l <= 1; l++)
@@ -69,28 +67,17 @@ public class cell_controller : MonoBehaviour
                             if (!(k == 0 && l == 0) && i + k >= 0 && i + k < HEIGHT && j + l >= 0 && j + l < WIDTH && on_map[i + k, j + l])
                             {
                                 sum += cells[i + k, j + l].state;
+                                numNeighbors++;
                             }
                         }
                     }
-                    if(sum > 7.0f)
-                    {
-                        nextState[i, j] = 0.0f;
-                    } else if(sum > 4.0f)
-                    {
-                        nextState[i, j] = cells[i, j].state - 0.04f - Random.Range(0.0f, 0.05f);
-                    } else if(sum < 1.0f)
-                    {
-                        nextState[i, j] = 0.0f;
-                    } else
-                    {
-                        nextState[i, j] += cells[i, j].state + (4 - sum) * Random.Range(0.03f, 0.08f) - 0.05f;
-                    }
+                    nextState[i, j] = treeLogic(cells[i, j].state, numNeighbors, sum);
                 }
             }
         }
-        for(int i = 0; i < HEIGHT; i++)
+        for (int i = 0; i < HEIGHT; i++)
         {
-            for(int j = 0; j < WIDTH; j++)
+            for (int j = 0; j < WIDTH; j++)
             {
                 if (on_map[i, j])
                 {
@@ -98,6 +85,15 @@ public class cell_controller : MonoBehaviour
                 }
             }
         }
+    }
+
+    float treeLogic(float self, int numNeighbors, float neighborSum)
+    {
+        float growth = growth_rate * (neighborSum - numNeighbors * (self * self) / growth_factor);
+        growth *= Random.Range(1.0f - growth_random, 1.0f + growth_random);
+        float result = self + Time.deltaTime * growth;
+        result = Mathf.Clamp01(result);
+        return result;
     }
 
     public float tree_density(Vector2 pos, float radius)
@@ -126,7 +122,7 @@ public class cell_controller : MonoBehaviour
             {
                 if (Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
-                    cells[i, j].state += delta;
+                    cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
                 }
             }
         }
