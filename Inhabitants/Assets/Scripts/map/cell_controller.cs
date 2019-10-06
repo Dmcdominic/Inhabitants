@@ -14,9 +14,6 @@ public class cell_controller : MonoBehaviour
     private bool[,] on_map = new bool[HEIGHT, WIDTH];
     protected cell[,] cells = new cell[HEIGHT, WIDTH];
 
-    protected float time_since_tick = 0;
-    protected float time_per_tick = 0.5f;
-
     //Controls speed of entire tree progression system
     public float growth_rate = 0.006f;
     // >1 biases towards growth, <1 biases towards decay
@@ -87,6 +84,7 @@ public class cell_controller : MonoBehaviour
         }
     }
 
+    //Computes the next state for a given tree based on its neighbors
     float treeLogic(float self, int numNeighbors, float neighborSum)
     {
         float growth = growth_rate * (neighborSum - numNeighbors * (self * self) / growth_factor);
@@ -96,9 +94,9 @@ public class cell_controller : MonoBehaviour
         return result;
     }
 
+    //Computes tree density in a given area
     public float tree_density(Vector2 pos, float radius)
     {
-        //TODO remove inefficient code :P
         float sum = 0.0f;
         for(int i = 0; i < HEIGHT; i++)
         {
@@ -113,9 +111,9 @@ public class cell_controller : MonoBehaviour
         return sum / (Mathf.PI * radius * radius);
     }
 
+    //Modifies the value of trees in a given area (clamped)
     public void growTrees(Vector2 pos, float radius, float delta)
     {
-        //TODO remove inefficient code :P
         for (int i = 0; i < HEIGHT; i++)
         {
             for (int j = 0; j < WIDTH; j++)
