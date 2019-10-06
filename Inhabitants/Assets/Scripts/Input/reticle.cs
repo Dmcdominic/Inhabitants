@@ -65,7 +65,7 @@ public class reticle : MonoBehaviour {
         sr.enabled = (active_region == null);
         if (active_region != null) {
             // TODO - Highlight active region here
-            transform.position = active_region.transform.position;
+            transform.position = active_region.centerpoint;
             Vector2 leftStickAim = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
             if (leftStickAim.magnitude != 0) {
                 region new_aiming_at = raycast_to_region(leftStickAim);
@@ -98,9 +98,9 @@ public class reticle : MonoBehaviour {
 
         line_to_active_region.enabled = (active_region != null && aimed_at_region != null);
         if (active_region != null && aimed_at_region != null) {
-            Vector2 line_start_pos = active_region.transform.position;
-            //Vector2 line_end_pos = (aimed_at_region != null && aimed_at_region != active_region) ? aimed_at_region.transform.position : transform.position;
-            Vector2 line_end_pos = aimed_at_region.transform.position;
+            Vector2 line_start_pos = active_region.centerpoint;
+            //Vector2 line_end_pos = (aimed_at_region != null && aimed_at_region != active_region) ? aimed_at_region.centerpoint : transform.position;
+            Vector2 line_end_pos = aimed_at_region.centerpoint;
             Vector2 main_dir = line_end_pos - line_start_pos;
             Vector2 perp_dir = new Vector2(-main_dir.y, main_dir.x).normalized;
             Vector2 line_mid_pos = (line_end_pos - line_start_pos) / 2f + line_start_pos + perp_dir * 0.05f * main_dir.magnitude;
