@@ -109,7 +109,7 @@ public class cell_controller : MonoBehaviour
         {
             for(int j = 0; j < WIDTH; j++)
             {
-                if(Vector2.Distance(cells[i, j].transform.position, pos) < radius)
+                if(on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
                     sum += cells[i, j].state;
                 }
@@ -125,7 +125,7 @@ public class cell_controller : MonoBehaviour
         {
             for (int j = 0; j < WIDTH; j++)
             {
-                if (Vector2.Distance(cells[i, j].transform.position, pos) < radius)
+                if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
                     cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
                 }
