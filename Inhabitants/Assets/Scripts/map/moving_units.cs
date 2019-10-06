@@ -18,7 +18,7 @@ public class moving_units : MonoBehaviour
 
     public SpriteRenderer units_color;
 
-    private float movespeed = 1;
+    private float movespeed = 0.25f;
     // Start is called before the first frame update
     void Start()
     {
