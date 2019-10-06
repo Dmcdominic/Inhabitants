@@ -69,7 +69,7 @@ public class region : MonoBehaviour
                 return 0;
             }
             // return units_real / 20f;
-            return Mathf.Sqrt(units_real) / 7f + 0.2f;
+            return Mathf.Sqrt(units_real) / 12f + 0.2f;
         }
     }
 
