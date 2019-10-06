@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XboxCtrlrInput;
 
-public class reticle : MonoBehaviour {
+public class reticle : MonoBehaviour, IPlayerInput {
 
 	// Static settings
 	private static float speed_mult = 4f;
