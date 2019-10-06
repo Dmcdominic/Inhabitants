@@ -14,6 +14,7 @@ public class reticle : MonoBehaviour {
     public player Owner;
 	public XboxController controller;
     public LineRenderer line_to_active_region;
+    public Rainstorm rainstorm;
 
     // Private vars
     private Rigidbody2D rb;
@@ -25,6 +26,9 @@ public class reticle : MonoBehaviour {
     private Dictionary<region, int> touching_regions = new Dictionary<region, int>();
     private static LayerMask region_mask;
     private static ContactFilter2D contactFilter = new ContactFilter2D();
+
+    private float rainstorm_rate = 5.0f; //15 seconds
+    private float next_rainstorm = 0.0f;
 
 
     // Init
@@ -54,8 +58,15 @@ public class reticle : MonoBehaviour {
 		rb.position += velo * Time.deltaTime;
 
         // The following is for human-player control, and does not apply to the Earth player
-        if (Owner == player.Earth) {
-            return;
+        if (Owner == player.Earth)
+        {   
+            
+            if (XCI.GetButtonDown(XboxButton.X, controller) && Time.time > next_rainstorm) {
+               
+                next_rainstorm = Time.time + rainstorm_rate;
+                Rainstorm rs = Instantiate(rainstorm, transform.position, Quaternion.identity);
+                rs.next_rainstorm = Time.time+rainstorm_rate; 
+        }
         }
 
         // Update over_region using raycast, rather than trigger enter/exit
@@ -95,7 +106,7 @@ public class reticle : MonoBehaviour {
             }
             active_region = null;
         }
-
+       
         line_to_active_region.enabled = (active_region != null && aimed_at_region != null);
         if (active_region != null && aimed_at_region != null) {
             Vector2 line_start_pos = active_region.centerpoint;
