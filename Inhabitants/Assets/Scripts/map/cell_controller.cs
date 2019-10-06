@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -100,7 +100,7 @@ public class cell_controller : MonoBehaviour
         }
     }
 
-    float tree_density(Vector2 pos, float radius)
+    public float tree_density(Vector2 pos, float radius)
     {
         //TODO remove inefficient code :P
         float sum = 0.0f;
@@ -117,7 +117,7 @@ public class cell_controller : MonoBehaviour
         return sum / (Mathf.PI * radius * radius);
     }
 
-    void growTrees(Vector2 pos, float radius, float delta)
+    public void growTrees(Vector2 pos, float radius, float delta)
     {
         //TODO remove inefficient code :P
         for (int i = 0; i < HEIGHT; i++)
