@@ -5,6 +5,8 @@ using UnityEngine;
 public class cell_controller : MonoBehaviour
 {
 
+    public static cell_controller instance;
+
     public cell prefabCell;
     public LayerMask treeZoneMask;
 
@@ -20,6 +22,11 @@ public class cell_controller : MonoBehaviour
     public float growth_factor = 0.7f;
     // random factor in growth speed
     public float growth_random = 0.05f;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
