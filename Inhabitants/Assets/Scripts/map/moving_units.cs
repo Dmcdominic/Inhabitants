@@ -18,7 +18,7 @@ public class moving_units : MonoBehaviour
 
     public SpriteRenderer units_color;
 
-    private float movespeed = 1;
+    private float movespeed = 0.25f;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,10 +44,10 @@ public class moving_units : MonoBehaviour
         else
         {
             //moves the units
-            if (Vector3.Distance(transform.position, target_region.transform.position) > ds)
+            if (Vector3.Distance(transform.position, target_region.centerpoint) > ds)
             {
 
-                Vector3 direction = target_region.transform.position - transform.position;
+                Vector3 direction = (Vector3)target_region.centerpoint - transform.position;
                 transform.Translate(direction.normalized * ds);
 
             }
