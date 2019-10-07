@@ -61,7 +61,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
     // Update is called once per frame
     void Update() {
         // Update position based on controller input
-		Vector2 velo = new Vector2(MoveX(), MoveY());
+		Vector2 velo = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
 		velo *= speed_mult;
 		if (velo.sqrMagnitude > speed_cap) {
 			velo.Normalize();
@@ -75,10 +75,11 @@ public class reticle : MonoBehaviour, IPlayerInput {
         {   
             
             if (XCI.GetButtonDown(XboxButton.X, controller) && Time.time > next_rainstorm) {
-               
-                next_rainstorm = Time.time + rainstorm_rate;
-                Rainstorm rs = Instantiate(rainstorm, transform.position, Quaternion.identity);
-                rs.next_rainstorm = Time.time+rainstorm_rate; 
+                if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2)
+                {
+                    next_rainstorm = Time.time + rainstorm_rate;
+                    Instantiate(rainstorm, transform.position, Quaternion.identity);
+                }
         }
         }
 
@@ -90,7 +91,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
         if (active_region != null) {
             // TODO - Highlight active region here
             transform.position = active_region.centerpoint;
-            Vector2 leftStickAim = new Vector2(MoveX(), MoveY());
+            Vector2 leftStickAim = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
             if (leftStickAim.magnitude != 0) {
                 region new_aiming_at = raycast_to_region(leftStickAim);
                 aimed_at_region = new_aiming_at;
@@ -102,18 +103,18 @@ public class reticle : MonoBehaviour, IPlayerInput {
         }
 
         // TESTING
-        if (OwnerSetButtonDown() && over_region != null) {
+        if (XCI.GetButtonDown(XboxButton.RightBumper, controller) && over_region != null) {
             over_region.Owner = Owner;
         } else if (XCI.GetButtonDown(XboxButton.LeftBumper, controller) && over_region != null) {
             over_region.Owner = player.none;
         }
 
         // Respond to button inputs
-        if (SelectionButtonDown() && over_region != null && over_region.Owner == Owner) {
+        if (XCI.GetButtonDown(XboxButton.A, controller) && over_region != null && over_region.Owner == Owner) {
             active_region = over_region;
         } else if (active_region != null && active_region.Owner != Owner) {
             active_region = null;
-        } else if (!SelectionButtonDown()) {
+        } else if (!XCI.GetButton(XboxButton.A, controller)) {
             if (active_region != null && active_region.Owner == Owner && aimed_at_region != null && active_region != aimed_at_region) {
                 active_region.send_units(aimed_at_region);
             }
