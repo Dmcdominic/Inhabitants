@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class road_hub : MonoBehaviour {
 
-  // TESTING
-  public region test_target_region;
-
   // Component fields
   public LineRenderer road_renderer;
 
@@ -27,13 +24,6 @@ public class road_hub : MonoBehaviour {
   private void Awake() {
     source = GetComponent<region>();
     road_renderer.enabled = false;
-  }
-
-  // TESTING
-  private void Start() {
-    if (test_target_region != null) {
-      build_road(test_target_region);
-    }
   }
 
   // Update is called once per frame
