@@ -112,7 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df6dc875686516419c7498168ae2ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rainstorm: {fileID: 0}
+  rainstorm: {fileID: -4004575448336835489, guid: d52ee7762485f4e4a8179045e02828ae,
+    type: 3}
 --- !u!58 &2312616099192588906
 CircleCollider2D:
   m_ObjectHideFlags: 0
