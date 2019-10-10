@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2312616099192588904}
   - component: {fileID: 2312616099192588905}
   - component: {fileID: 2312616099192588902}
+  - component: {fileID: 8896417138050966106}
   - component: {fileID: 2312616099192588906}
   - component: {fileID: 2312616099192588907}
   m_Layer: 0
@@ -99,6 +100,19 @@ MonoBehaviour:
   Owner: 1
   controller: 1
   line_to_active_region: {fileID: 6686409363014656834}
+--- !u!114 &8896417138050966106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2312616099192588903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df6dc875686516419c7498168ae2ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rainstorm: {fileID: 0}
 --- !u!58 &2312616099192588906
 CircleCollider2D:
   m_ObjectHideFlags: 0

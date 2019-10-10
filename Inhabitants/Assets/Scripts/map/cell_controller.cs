@@ -9,7 +9,6 @@ public class cell_controller : MonoBehaviour
 
     public cell prefabCell;
     public LayerMask treeZoneMask;
-    public reticle earthReticle;
 
     const int WIDTH = 100, HEIGHT = 80;
     const float CELL_WIDTH = 0.2f, CELL_HEIGHT = 0.2f;
@@ -45,7 +44,7 @@ public class cell_controller : MonoBehaviour
                 on_map[i, j] = hit.collider != null;
                 if(on_map[i, j])
                 {
-                    cell c = Instantiate(prefabCell, new Vector3(x, y, 0), Quaternion.identity);
+                    cell c = Instantiate(prefabCell, new Vector3(x, y, 0), Quaternion.identity, transform);
                     c.state = Random.Range(0.0f, 1.0f) * Random.Range(0.0f, 1.0f);
                     cells[i, j] = c;
                 }
@@ -90,12 +89,6 @@ public class cell_controller : MonoBehaviour
                 }
             }
         }
-
-        //Input
-        if (Input.GetKey(KeyCode.T))
-        {
-            growTrees(earthReticle.transform.position, 0.3f, Time.deltaTime / 5);
-        }
     }
 
     //Computes the next state for a given tree based on its neighbors
@@ -132,9 +125,8 @@ public class cell_controller : MonoBehaviour
         {
             for (int j = 0; j < WIDTH; j++)
             {
-                if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
-                {
-                    cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
+                if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius) {
+          cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
                 }
             }
         }
