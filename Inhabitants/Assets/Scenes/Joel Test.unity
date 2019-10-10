@@ -286,6 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882791fba4e128544b7c126fc2b64e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rainstorm_time: 5
+  delta: 50
 --- !u!212 &212096416
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -343,7 +345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212096414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7281842, y: 3.5126088, z: -27.410803}
+  m_LocalPosition: {x: 1.7281842, y: 4.912609, z: -27.410803}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -455,6 +457,7 @@ MonoBehaviour:
   Owner: 0
   unit_text: {fileID: 1781849959}
   City: {fileID: 0}
+  spriteOutline: {fileID: 0}
 --- !u!212 &532626712
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1283,6 +1286,7 @@ MonoBehaviour:
   treeZoneMask:
     serializedVersion: 2
     m_Bits: 512
+  earthReticle: {fileID: 39593828}
   growth_rate: 0.006
   growth_factor: 0.7
   growth_random: 0.05
@@ -1593,7 +1597,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042241238}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84, y: -0.3, z: 0}
+  m_LocalPosition: {x: -2.04, y: 0.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1293147475}

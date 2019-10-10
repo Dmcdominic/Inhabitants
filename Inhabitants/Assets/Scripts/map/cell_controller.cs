@@ -9,6 +9,7 @@ public class cell_controller : MonoBehaviour
 
     public cell prefabCell;
     public LayerMask treeZoneMask;
+    public reticle earthReticle;
 
     const int WIDTH = 100, HEIGHT = 80;
     const float CELL_WIDTH = 0.2f, CELL_HEIGHT = 0.2f;
@@ -88,6 +89,12 @@ public class cell_controller : MonoBehaviour
                     cells[i, j].state = nextState[i, j];
                 }
             }
+        }
+
+        //Input
+        if (Input.GetKey(KeyCode.T))
+        {
+            growTrees(earthReticle.transform.position, 0.3f, Time.deltaTime / 5);
         }
     }
 
