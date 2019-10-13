@@ -9,8 +9,8 @@ public class road_hub : MonoBehaviour {
 
   // Static settings
   private static int midpt_count = 8;
-  private static float visual_pulse_freq = 0.5f;
-  private static float pulse_margin = 0.12f;
+  //private static float visual_pulse_freq = 0.5f;
+  //private static float pulse_margin = 0.12f;
 
   private static float tree_destruction_radius = 0.1f;
   private static float on_build_tree_delta = -1f;

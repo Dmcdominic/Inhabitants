@@ -15,6 +15,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
   public player Owner;
   public XboxController controller;
   public LineRenderer line_to_active_region;
+  public SpriteRenderer arrow_cap;
 
   // Private vars
   private Rigidbody2D rb;
@@ -45,10 +46,15 @@ public class reticle : MonoBehaviour, IPlayerInput {
       earth_Reticle.enabled = false;
     }
 
+    // Init visuals
     sr.color = player_data.colors[(int)Owner];
+    arrow_cap.color = player_data.colors[(int)Owner];
     line_to_active_region.startColor = player_data.colors[(int)Owner];
-    line_to_active_region.endColor = Color.black;
-    //line_to_active_region.
+    line_to_active_region.endColor = player_data.colors[(int)Owner];
+    line_to_active_region.enabled = false;
+    arrow_cap.enabled = false;
+
+    // Init raycast contact filter
     region_mask = LayerMask.GetMask(new string[] { "Regions" });
     contactFilter.NoFilter();
     contactFilter.useLayerMask = true;
@@ -136,14 +142,19 @@ public class reticle : MonoBehaviour, IPlayerInput {
     }
 
     // Update the visual line to active region
-    line_to_active_region.enabled = (active_region != null && aimed_at_region != null);
-    if (active_region != null && aimed_at_region != null) {
+    bool show_line = (active_region != null && aimed_at_region != null);
+    line_to_active_region.enabled = show_line;
+    arrow_cap.enabled = show_line;
+    if (show_line) {
       Vector2 line_start_pos = active_region.centerpoint;
       Vector2 line_end_pos = aimed_at_region.centerpoint;
       Vector2 main_dir = line_end_pos - line_start_pos;
       Vector2 perp_dir = new Vector2(-main_dir.y, main_dir.x).normalized;
       Vector2 line_mid_pos = (line_end_pos - line_start_pos) / 2f + line_start_pos + perp_dir * 0.05f * main_dir.magnitude;
       line_to_active_region.SetPositions(new Vector3[] { line_start_pos, line_mid_pos, line_end_pos });
+      arrow_cap.transform.position = line_end_pos;
+      //arrow_cap.transform.LookAt(line_mid_pos, Vector3.back);
+      arrow_cap.transform.right = (Vector2)arrow_cap.transform.position - line_mid_pos;
     }
   }
 
