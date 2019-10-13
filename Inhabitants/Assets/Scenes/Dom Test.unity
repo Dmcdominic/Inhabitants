@@ -12263,6 +12263,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 362702775240425633, guid: 61ea023c954a7d648aa78981dc986b7f,
+        type: 3}
+      propertyPath: Owner
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61ea023c954a7d648aa78981dc986b7f, type: 3}
 --- !u!4 &882245664 stripped
@@ -18721,6 +18726,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Earth Reticle
       objectReference: {fileID: 0}
+    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
+        type: 3}
+      propertyPath: Owner
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
+        type: 3}
+      propertyPath: controller
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2312616099192588904, guid: 862760020dcaee34380f9a65654a65b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18790,16 +18805,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.03292663
-      objectReference: {fileID: 0}
-    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
-        type: 3}
-      propertyPath: Owner
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
-        type: 3}
-      propertyPath: controller
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 862760020dcaee34380f9a65654a65b4, type: 3}
@@ -23368,6 +23373,11 @@ PrefabInstance:
       propertyPath: test_target_region
       value: 
       objectReference: {fileID: 1564603545}
+    - target: {fileID: 362702775240425633, guid: 61ea023c954a7d648aa78981dc986b7f,
+        type: 3}
+      propertyPath: Owner
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61ea023c954a7d648aa78981dc986b7f, type: 3}
 --- !u!4 &2110256294 stripped
@@ -23387,6 +23397,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: P2 Reticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
+        type: 3}
+      propertyPath: Owner
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
+        type: 3}
+      propertyPath: controller
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2312616099192588904, guid: 862760020dcaee34380f9a65654a65b4,
         type: 3}
@@ -23457,16 +23477,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.0039215684
-      objectReference: {fileID: 0}
-    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
-        type: 3}
-      propertyPath: Owner
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2312616099192588902, guid: 862760020dcaee34380f9a65654a65b4,
-        type: 3}
-      propertyPath: controller
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 862760020dcaee34380f9a65654a65b4, type: 3}

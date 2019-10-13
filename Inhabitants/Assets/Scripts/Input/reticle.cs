@@ -9,6 +9,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
   private static float speed_mult = 4f;
   private static float speed_cap = 3.5f;
   private static float raycast_radius = 0.18f;
+  private static float rTrigger_thresh = 0.25f;
 
   // Editor fields
   public player Owner;
@@ -26,6 +27,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
   private Dictionary<region, int> touching_regions = new Dictionary<region, int>();
   private static LayerMask region_mask;
   private static ContactFilter2D contactFilter = new ContactFilter2D();
+  private bool rTrigger_down_prev = false;
 
   private int controllerNum;
   private string hAxisString;
@@ -69,26 +71,36 @@ public class reticle : MonoBehaviour, IPlayerInput {
       velo.Normalize();
       velo *= speed_cap;
     }
-
-    rb.position += velo * Time.deltaTime;
+    if (active_region == null) {
+      rb.position += velo * Time.deltaTime;
+    }
 
     // The following is for human-player control, and does not apply to the Earth player
     if (Owner == player.Earth) {
       return;
     }
 
+    Vector2 rightStickAim = new Vector2(XCI.GetAxis(XboxAxis.RightStickX, controller), XCI.GetAxis(XboxAxis.RightStickY, controller));
+
     // Update over_region using raycast, rather than trigger enter/exit
     update_over_region();
+
+    // Update active_region
+    if (rightStickAim.magnitude != 0 && over_region != null && over_region.Owner == Owner) {
+      active_region = over_region;
+    } else if (active_region != null && active_region.Owner != Owner) {
+      active_region = null;
+    } else if (rightStickAim.magnitude == 0) {
+      active_region = null;
+    }
 
     // Update aimed_at region
     sr.enabled = (active_region == null);
     if (active_region != null) {
       // TODO - Highlight active region here
-      transform.position = active_region.centerpoint;
-      Vector2 leftStickAim = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
-      if (leftStickAim.magnitude != 0) {
-        region new_aiming_at = raycast_to_region(leftStickAim);
-        aimed_at_region = new_aiming_at;
+      //transform.position = active_region.centerpoint;
+      if (rightStickAim.magnitude != 0) {
+        aimed_at_region = raycast_to_region(rightStickAim);
       } else {
         aimed_at_region = null;
       }
@@ -96,29 +108,37 @@ public class reticle : MonoBehaviour, IPlayerInput {
       aimed_at_region = null;
     }
 
-    // TESTING
-    if (XCI.GetButtonDown(XboxButton.RightBumper, controller) && over_region != null) {
-      over_region.Owner = Owner;
-    } else if (XCI.GetButtonDown(XboxButton.LeftBumper, controller) && over_region != null) {
-      over_region.Owner = player.none;
-    }
+    // Send units
+    bool sendButtonHeld = XCI.GetAxis(XboxAxis.RightTrigger, controller) >= rTrigger_thresh;
+    bool sendButtonDown = sendButtonHeld && !rTrigger_down_prev;
+    rTrigger_down_prev = sendButtonHeld;
 
-    // Respond to button inputs
-    if (XCI.GetButtonDown(XboxButton.A, controller) && over_region != null && over_region.Owner == Owner) {
-      active_region = over_region;
-    } else if (active_region != null && active_region.Owner != Owner) {
-      active_region = null;
-    } else if (!XCI.GetButton(XboxButton.A, controller)) {
-      if (active_region != null && active_region.Owner == Owner && aimed_at_region != null && active_region != aimed_at_region) {
+    if (sendButtonDown && active_region != null && aimed_at_region != null) {
+      if (active_region != aimed_at_region) {
         active_region.send_units(aimed_at_region);
       }
-      active_region = null;
     }
 
+    // Build a road
+    bool buildRoadButtonDown = XCI.GetButtonDown(XboxButton.RightBumper, controller);
+    if (buildRoadButtonDown && active_region != null && aimed_at_region != null) {
+      if (active_region != aimed_at_region && aimed_at_region.Owner == Owner) {
+        active_region.build_road(aimed_at_region);
+      }
+    }
+
+    // Clear this road
+    bool clearRoadButtonDown = XCI.GetButtonDown(XboxButton.LeftBumper, controller);
+    if (clearRoadButtonDown && over_region != null) {
+      if (over_region.Owner == Owner) {
+        over_region.road_Hub.destroy_road();
+      }
+    }
+
+    // Update the visual line to active region
     line_to_active_region.enabled = (active_region != null && aimed_at_region != null);
     if (active_region != null && aimed_at_region != null) {
       Vector2 line_start_pos = active_region.centerpoint;
-      //Vector2 line_end_pos = (aimed_at_region != null && aimed_at_region != active_region) ? aimed_at_region.centerpoint : transform.position;
       Vector2 line_end_pos = aimed_at_region.centerpoint;
       Vector2 main_dir = line_end_pos - line_start_pos;
       Vector2 perp_dir = new Vector2(-main_dir.y, main_dir.x).normalized;
@@ -171,13 +191,13 @@ public class reticle : MonoBehaviour, IPlayerInput {
   }
 
   private RaycastHit2D raycast_in_dir(Vector2 dir) {
-    return Physics2D.Raycast(transform.position + (Vector3)dir.normalized * raycast_radius * 0.5f, dir, raycast_radius * 0.5f, region_mask);
+    return Physics2D.Raycast((Vector2)transform.position + dir.normalized * raycast_radius * 0.5f, dir, raycast_radius * 0.5f, region_mask);
   }
 
   // Returns the nearest region in the "dir" direction. Returns null if none exists
   private region raycast_to_region(Vector2 dir) {
     List<RaycastHit2D> results = new List<RaycastHit2D>();
-    Physics2D.Raycast(transform.position, dir, contactFilter, results);
+    Physics2D.Raycast(active_region.centerpoint, dir, contactFilter, results);
 
     region closest = null;
     float min_dist = float.MaxValue;
