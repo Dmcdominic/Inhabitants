@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XboxCtrlrInput;
+using ReticleControlInput;
 
 public class reticle : MonoBehaviour, IPlayerInput {
 
@@ -71,7 +72,9 @@ public class reticle : MonoBehaviour, IPlayerInput {
   // Update is called once per frame
   void Update() {
     // Update position based on controller input
-    Vector2 velo = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
+    // Vector2 velo = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
+    Vector2 velo = new Vector2(RCI.GetAxis(XboxAxis.LeftStickX, controller), RCI.GetAxis(XboxAxis.LeftStickY, controller));
+
     velo *= speed_mult;
     if (velo.sqrMagnitude > speed_cap) {
       velo.Normalize();
@@ -86,7 +89,8 @@ public class reticle : MonoBehaviour, IPlayerInput {
       return;
     }
 
-    Vector2 rightStickAim = new Vector2(XCI.GetAxis(XboxAxis.RightStickX, controller), XCI.GetAxis(XboxAxis.RightStickY, controller));
+    // Vector2 rightStickAim = new Vector2(XCI.GetAxis(XboxAxis.RightStickX, controller), XCI.GetAxis(XboxAxis.RightStickY, controller));
+    Vector2 rightStickAim = new Vector2(RCI.GetAxis(XboxAxis.RightStickX, controller), RCI.GetAxis(XboxAxis.RightStickY, controller));
 
     // Update over_region using raycast, rather than trigger enter/exit
     update_over_region();
@@ -115,7 +119,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
     }
 
     // Send units
-    bool sendButtonHeld = XCI.GetAxis(XboxAxis.RightTrigger, controller) >= rTrigger_thresh;
+    bool sendButtonHeld = RCI.GetAxis(XboxAxis.RightTrigger, controller) >= rTrigger_thresh;
     bool sendButtonDown = sendButtonHeld && !rTrigger_down_prev;
     rTrigger_down_prev = sendButtonHeld;
 
@@ -126,7 +130,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
     }
 
     // Build a road
-    bool buildRoadButtonDown = XCI.GetButtonDown(XboxButton.RightBumper, controller);
+    bool buildRoadButtonDown = RCI.GetButtonDown(XboxButton.RightBumper, controller);
     if (buildRoadButtonDown && active_region != null && aimed_at_region != null) {
       if (active_region != aimed_at_region && aimed_at_region.Owner == Owner) {
         active_region.build_road(aimed_at_region);
@@ -134,7 +138,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
     }
 
     // Clear this road
-    bool clearRoadButtonDown = XCI.GetButtonDown(XboxButton.LeftBumper, controller);
+    bool clearRoadButtonDown = RCI.GetButtonDown(XboxButton.LeftBumper, controller);
     if (clearRoadButtonDown && over_region != null) {
       if (over_region.Owner == Owner) {
         over_region.road_Hub.destroy_road();

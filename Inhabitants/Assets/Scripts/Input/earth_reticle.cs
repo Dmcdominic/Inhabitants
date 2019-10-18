@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XboxCtrlrInput;
+using ReticleControlInput;
 
 public class earth_reticle : MonoBehaviour {
 
@@ -27,7 +28,7 @@ public class earth_reticle : MonoBehaviour {
   // Called every frame
   private void Update() {
     // Rainstorm logic
-    if (XCI.GetButtonDown(XboxButton.X, Reticle.controller) && Time.time > next_rainstorm) {
+    if (RCI.GetButtonDown(XboxButton.X, Reticle.controller) && Time.time > next_rainstorm) {
       if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2) {
         next_rainstorm = Time.time + rainstorm_rate;
         Instantiate(rainstorm, transform.position, Quaternion.identity);
@@ -35,7 +36,7 @@ public class earth_reticle : MonoBehaviour {
     }
 
     // Tree-growing logic
-    if (XCI.GetButton(XboxButton.A, Reticle.controller) || Input.GetKey(KeyCode.T)) {
+    if (RCI.GetButton(XboxButton.A, Reticle.controller) || Input.GetKey(KeyCode.T)) {
       cell_controller.instance.growTrees(transform.position, tree_growth_radius, Time.deltaTime * tree_growth_rate);
     }
   }
