@@ -40,7 +40,7 @@ public class cell : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        rend = this.GetComponent<SpriteRenderer>();
+        rend = this.GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
