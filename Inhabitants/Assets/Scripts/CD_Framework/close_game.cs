@@ -8,13 +8,16 @@ using UnityEditor;
 
 public class close_game : MonoBehaviour {
 
-	public void end_it()
-    {
-    #if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
+  public void end_it() {
+    quit();
+  }
+
+  public static void quit() {
+#if UNITY_EDITOR
+    EditorApplication.isPlaying = false;
 #endif
 #if UNITY_STANDALONE
-        Application.Quit();
+    Application.Quit();
 #endif
-    }
+  }
 }

@@ -9,15 +9,23 @@ public class road_hub : MonoBehaviour {
 
   // Static settings
   private static int midpt_count = 8;
-  private static float visual_pulse_freq = 0.5f;
-  private static float pulse_margin = 0.12f;
+  //private static float visual_pulse_freq = 0.5f;
+  //private static float pulse_margin = 0.12f;
+
+  private static float tree_destruction_radius = 0.1f;
+  private static float on_build_tree_delta = -1f;
 
   // Private vars
-  private int units_at_build_time;
+  private int units_cap;
+  private Vector3[] current_midpoints;
 
   // Private components
   private region source;
   private region dest;
+
+  public bool road_active {
+   get { return dest != null; }
+  }
 
 
   // Init
@@ -33,18 +41,16 @@ public class road_hub : MonoBehaviour {
     }
 
     if (source.Owner == player.none || source.Owner != dest.Owner) {
-      //destroy_road(); // TODO - uncomment
+      destroy_road();
       return;
     }
 
     // Send any excess units
-    int unit_diff = source.units - units_at_build_time;
-    if (unit_diff > 0) {
-      source.send_n_units(dest, unit_diff);
-    }
+    send_excess_units();
+    units_cap = source.units;
 
     // Animate the road renderer
-    float t = ((Time.time * visual_pulse_freq) % 1) * (1f - 2f*pulse_margin) + pulse_margin;
+    /*float t = ((Time.time * visual_pulse_freq) % 1) * (1f - 2f*pulse_margin) + pulse_margin;
 
     Keyframe zero = road_renderer.widthCurve.keys[0];
     Keyframe last = road_renderer.widthCurve.keys[road_renderer.widthCurve.keys.Length - 1];
@@ -54,7 +60,7 @@ public class road_hub : MonoBehaviour {
 
     AnimationCurve widthCurve = new AnimationCurve();
     widthCurve.keys = new Keyframe[5] { zero, mid0, mid1, mid2, last };
-    road_renderer.widthCurve = widthCurve;
+    road_renderer.widthCurve = widthCurve; */
   }
 
   // Build a road
@@ -64,15 +70,31 @@ public class road_hub : MonoBehaviour {
       return;
     }
 
+    // If a road already exists, destroy it
+    if (dest != null) {
+      bool no_build = target == dest;
+      destroy_road();
+      if (no_build) return;
+    }
+
     dest = target;
-    units_at_build_time = source.units;
+    units_cap = source.units;
+
+    // Destroy the opposite road, if it exists
+    if (dest.road_Hub.dest == source) {
+      dest.road_Hub.destroy_road();
+    }
 
     // Build the road (visually)
     road_renderer.positionCount = midpt_count + 2;
-    road_renderer.SetPositions(midpoints(source.centerpoint, dest.centerpoint, midpt_count));
+    current_midpoints = midpoints(source.centerpoint, dest.centerpoint, midpt_count);
+    road_renderer.SetPositions(current_midpoints);
     road_renderer.enabled = true;
 
-    // Todo - destroy trees between two regions
+    // Destroy trees along the road
+    foreach(Vector3 pos in current_midpoints) {
+      cell_controller.instance.growTrees(pos, tree_destruction_radius, on_build_tree_delta);
+    }
   }
 
   // Destroy a road
@@ -81,6 +103,16 @@ public class road_hub : MonoBehaviour {
 
     // Destroy the outgoing road (visually)
     road_renderer.enabled = false;
+  }
+
+  // Send any excess units that should be sent
+  public void send_excess_units() {
+    if (road_active) {
+      int unit_diff = source.units - units_cap;
+      if (unit_diff > 0) {
+        source.send_n_units(dest, unit_diff);
+      }
+    }
   }
   
   // Generates a Vector3[] of points between source and destination
