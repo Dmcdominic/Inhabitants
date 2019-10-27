@@ -9,7 +9,7 @@ public class status_controller : MonoBehaviour
 
     public Image trees, air, temperature;
 
-    public float airSpeed = 0.01f, tempSpeed = 0.01f;
+    public float airSpeed = 0.01f, tempSpeed = 0.01f, cityImpact = 0.001f;
 
     float treeLevel = 0.5f, airLevel = 0.5f, temperatureLevel = 0.5f;
 
@@ -27,8 +27,22 @@ public class status_controller : MonoBehaviour
     // Update is called once per frame 
     void Update()
     {
+        region[] regions = FindObjectsOfType<region>();
+        int occupied = 0;
+        for(int i = 0; i < regions.Length; i++)
+        {
+            region r = regions[i];
+            if(r.Owner.Equals(player.A) || r.Owner.Equals(player.B))
+            {
+                occupied++;
+            }
+        }
+
+        float pctOccupied = (float)occupied / (float)regions.Length;
+
         treeLevel = cell_controller.instance.treeLevel();
-        airLevel = Mathf.Clamp(airLevel + (treeLevel - 0.5f) * airSpeed * Time.deltaTime, 0, 1);
+        airLevel = Mathf.Clamp(airLevel + (treeLevel - 0.5f) * airSpeed * Time.deltaTime
+            + pctOccupied * cityImpact * Time.deltaTime, 0, 1);
         temperatureLevel = Mathf.Clamp(temperatureLevel + (airLevel - 0.5f) * tempSpeed * Time.deltaTime, 0, 1);
 
         trees.fillAmount = treeLevel;
