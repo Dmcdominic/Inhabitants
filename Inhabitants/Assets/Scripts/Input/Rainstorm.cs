@@ -13,7 +13,7 @@ public class Rainstorm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+    mixer.playSFX("rain");
     }
 
     // Update is called once per frame
