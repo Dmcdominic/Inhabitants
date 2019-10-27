@@ -19,7 +19,7 @@ public class cell_controller : MonoBehaviour
     //Controls speed of entire tree progression system
     public float growth_rate = 0.006f;
     // >1 biases towards growth, <1 biases towards decay
-    public float growth_factor = 0.7f;
+    public float growth_factor = 1.9f;
     // random factor in growth speed
     public float growth_random = 0.05f;
 
@@ -45,7 +45,7 @@ public class cell_controller : MonoBehaviour
                 if(on_map[i, j])
                 {
                     cell c = Instantiate(prefabCell, new Vector3(x, y, 0), Quaternion.identity, transform);
-                    c.state = Random.Range(0.0f, 1.0f) * Random.Range(0.0f, 1.0f);
+                    c.state = Random.Range(0.0f, 0.8f) * Random.Range(0.0f, 0.8f);
                     cells[i, j] = c;
                 }
             }
@@ -70,7 +70,7 @@ public class cell_controller : MonoBehaviour
                         {
                             if (!(k == 0 && l == 0) && i + k >= 0 && i + k < HEIGHT && j + l >= 0 && j + l < WIDTH && on_map[i + k, j + l])
                             {
-                                sum += cells[i + k, j + l].state;
+                                sum += cells[i + k, j + l].state * cells[i + k, j + l].state;
                                 numNeighbors++;
                             }
                         }
@@ -132,5 +132,22 @@ public class cell_controller : MonoBehaviour
         }
     }
 
+    public float treeLevel()
+    {
+        float sum = 0;
+        int divisor = 0;
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (on_map[i, j])
+                {
+                    sum += cells[i, j].state;
+                    divisor++;
+                }
+            }
+        }
+        return sum / divisor;
+    }
 
 }
