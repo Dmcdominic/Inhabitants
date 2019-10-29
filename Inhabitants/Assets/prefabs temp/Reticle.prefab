@@ -116,6 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rainstorm: {fileID: -4004575448336835489, guid: d52ee7762485f4e4a8179045e02828ae,
     type: 3}
+  Deer: {fileID: 8547144441851909567, guid: 17bd83b2b7f02c84ebcc0c0654c5a339, type: 3}
+  Wolf: {fileID: 1602488498474688564, guid: 34050c942dc92c144a2f4fe898c9e86c, type: 3}
 --- !u!58 &2312616099192588906
 CircleCollider2D:
   m_ObjectHideFlags: 0

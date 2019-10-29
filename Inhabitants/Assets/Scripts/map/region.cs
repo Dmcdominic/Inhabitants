@@ -14,9 +14,13 @@ public class region : MonoBehaviour {
   // Public variables
   public int units {
     get { return Mathf.FloorToInt(units_real); }
-    set { units_real = value; road_Hub.send_excess_units(); }
+    set { units_real = value; }
   }
-  protected float units_real;
+  protected float units_real {
+    get { return _units_real; }
+    set { _units_real = value; road_Hub.send_excess_units(); }
+  }
+  protected float _units_real;
 
   // Components
   public TextMeshPro unit_text;
@@ -54,7 +58,7 @@ public class region : MonoBehaviour {
 
     if (unit_to_send == 0) {
       //doesn't have enough units
-
+      // TODO - negative feedback?
     } else {
       send_n_units(region_target, unit_to_send);
     }
@@ -87,8 +91,8 @@ public class region : MonoBehaviour {
       if (Owner == player.none) {
         return 0;
       }
-      // return units_real / 20f;
-      return Mathf.Sqrt(units_real) / 12f + 0.2f;
+      float current_rate = Mathf.Sqrt(units_real) / 12f + 0.2f;
+      return current_rate;
     }
   }
 
