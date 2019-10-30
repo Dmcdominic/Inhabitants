@@ -10,9 +10,9 @@ public class mixer : MonoBehaviour
     public AudioClip neuMusic;
     public AudioClip indMusic;
     public static AudioSource fxSource;
-    public int ecoCutoff;
-    public int indCutoff;
-    public int value = 95;
+    public float ecoCutoff = 0.4f;
+    public float indCutoff = 0.6f;
+    public float value = 0f;
 
 
     public static void playSFX(string sfx)
@@ -69,6 +69,9 @@ public class mixer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update the current industry value
+        value = status_controller.industryLevel;
+
         if (!musicPlayer.isPlaying)
         {
             if (value < ecoCutoff)

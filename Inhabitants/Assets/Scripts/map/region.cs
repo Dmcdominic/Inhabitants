@@ -85,6 +85,10 @@ public class region : MonoBehaviour {
     road_Hub.build_road(target);
   }
 
+  public void clear_some_nearby_trees(float radius = 0.9f, float delta = -0.5f) {
+    cell_controller.instance.growTrees(centerpoint, radius, delta);
+  }
+
   // Determine the growth rate of this region
   public float growth_rate {
     get {

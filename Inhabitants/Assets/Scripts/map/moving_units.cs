@@ -8,6 +8,10 @@ public class moving_units : MonoBehaviour {
   private static float movespeed = 0.25f;
   private static float sr_radius = 0.2f;
 
+  private static float tree_destr_odds = 0.15f;
+  private static float tree_destr_radius = 0.35f;
+  private static float tree_destr_delta = -0.35f;
+
   // Components
   public region target_region;
   public player start_owner;
@@ -51,6 +55,11 @@ public class moving_units : MonoBehaviour {
       return;
     }
 
+    // Small odds to destroy nearby trees
+    if (Random.Range(0, 1f) < tree_destr_odds * Time.deltaTime) {
+      cell_controller.instance.growTrees(transform.position, tree_destr_radius, tree_destr_delta);
+    }
+
     //moves the units
     if (Vector2.Distance(transform.position, target_region.centerpoint) > ds) {
       Vector2 direction = target_region.centerpoint - (Vector2)transform.position;
@@ -66,6 +75,7 @@ public class moving_units : MonoBehaviour {
       if (target_region.units < units) {
         target_region.road_Hub.destroy_road();
         target_region.Owner = start_owner;
+        target_region.clear_some_nearby_trees();
         target_region.units = units - target_region.units;
       } else if (target_region.units == units) {//turn the region neutral
         target_region.road_Hub.destroy_road();
