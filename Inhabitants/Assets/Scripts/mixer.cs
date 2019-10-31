@@ -58,6 +58,11 @@ public class mixer : MonoBehaviour
         Destroy(source);
     }
 
+	private void Awake()
+    {
+        fxSource = GameObject.Find("Sound/FX").GetComponent(typeof(AudioSource)) as AudioSource;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
