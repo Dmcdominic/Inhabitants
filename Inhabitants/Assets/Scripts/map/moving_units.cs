@@ -5,12 +5,13 @@ using TMPro;
 
 public class moving_units : MonoBehaviour {
   // Static settings
-  private static float movespeed = 0.25f;
-  private static float sr_radius = 0.2f;
+  private const float movespeed = 0.25f;
+  private const float sr_radius = 0.35f;
+  private const float arrival_radius = 0.25f;
 
-  private static float tree_destr_odds = 0.15f;
-  private static float tree_destr_radius = 0.35f;
-  private static float tree_destr_delta = -0.35f;
+  private const float tree_destr_odds = 0.15f;
+  private const float tree_destr_radius = 0.35f;
+  private const float tree_destr_delta = -0.35f;
 
   // Components
   public region target_region;
@@ -24,19 +25,17 @@ public class moving_units : MonoBehaviour {
 
   // Start is called before the first frame update
   void Start() {
+    single_sr.GetComponent<Animator>().SetBool("blue", start_owner == player.B);
     Vector2 direction = target_region.centerpoint - (Vector2)transform.position;
-    if (direction.x < 0) {
+    if (direction.x > 0) {
       Vector3 lEA = single_sr.transform.localEulerAngles;
       single_sr.transform.localEulerAngles = new Vector3(lEA.x, 0, lEA.z);
     }
 
-    // TODO - remove this recoloring vv
-    single_sr.color = player_data.colors[(int)start_owner];
-
     // Set up a number of redcoat sprites depending on unit count
     // Thresholds increase cubically
     int threshold = 2;
-    while (units > threshold*threshold*threshold) {
+    while (units > threshold * threshold * threshold) {
       addSingleUnitSR();
       threshold += 1;
     }
@@ -60,8 +59,9 @@ public class moving_units : MonoBehaviour {
       cell_controller.instance.growTrees(transform.position, tree_destr_radius, tree_destr_delta);
     }
 
-    //moves the units
-    if (Vector2.Distance(transform.position, target_region.centerpoint) > ds) {
+    // If we're not close enough, move the units
+    float dist = Vector2.Distance(transform.position, target_region.centerpoint);
+    if (dist > ds && dist > arrival_radius) {
       Vector2 direction = target_region.centerpoint - (Vector2)transform.position;
       transform.Translate(direction.normalized * ds);
       return;
@@ -96,5 +96,6 @@ public class moving_units : MonoBehaviour {
     float delta_x = Random.Range(-sr_radius, sr_radius);
     float delta_y = Random.Range(-sr_radius, sr_radius);
     newSR.transform.position += new Vector3(delta_x, delta_y);
+    newSR.GetComponent<Animator>().SetBool("blue", start_owner == player.B);
   }
 }

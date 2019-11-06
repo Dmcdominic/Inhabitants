@@ -27,6 +27,7 @@ public class region : MonoBehaviour {
   public city City;
 
   // Hidden components
+  private SpriteRenderer ownerShade_sr;
   [HideInInspector]
   public SpriteOutline spriteOutline;
   [HideInInspector]
@@ -35,6 +36,7 @@ public class region : MonoBehaviour {
 
   // Init
   private void Awake() {
+    ownerShade_sr = GetComponent<SpriteRenderer>();
     spriteOutline = GetComponent<SpriteOutline>();
     road_Hub = GetComponent<road_hub>();
     //spriteOutline.enabled = false;
@@ -51,6 +53,16 @@ public class region : MonoBehaviour {
     unit_text.text = units.ToString();
     unit_text.color = player_data.colors[(int)Owner];
     spriteOutline.color = player_data.colors[(int)Owner];
+    
+    // Update the owner color overlay
+    if (Owner == player.A || Owner == player.B) {
+      Color transparentCol = player_data.colors[(int)Owner];
+      transparentCol.a = 0.2f;
+      ownerShade_sr.color = transparentCol;
+      ownerShade_sr.enabled = true;
+    } else {
+      ownerShade_sr.enabled = false;
+    }
   }
 
   public void send_units(region region_target) {

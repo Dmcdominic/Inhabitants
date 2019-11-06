@@ -42,7 +42,10 @@ public class reticle : MonoBehaviour {
     }
 
     // Init visuals
-    sr.color = player_data.colors[(int)Owner];
+    Color fadedCol = player_data.colors[(int)Owner];
+    fadedCol.a = sr.color.a;
+    sr.color = fadedCol;
+
     arrow_cap.color = player_data.colors[(int)Owner];
     line_to_active_region.startColor = player_data.colors[(int)Owner];
     line_to_active_region.endColor = player_data.colors[(int)Owner];
@@ -69,6 +72,16 @@ public class reticle : MonoBehaviour {
     if (active_region == null) {
       rb.position += velo * Time.deltaTime;
     }
+
+    Vector2 cam_min = Camera.main.ViewportToWorldPoint(new Vector3(0, 0));
+    Vector2 cam_max = Camera.main.ViewportToWorldPoint(new Vector3(1f, 1f));
+    Debug.Log("cam_min: " + cam_min);
+    Debug.Log("cam_max: " + cam_max);
+    float new_x = Mathf.Clamp(rb.position.x, cam_min.x, cam_max.x);
+    float new_y = Mathf.Clamp(rb.position.y, cam_min.y, cam_max.y);
+    Debug.Log("new_x: " + new_x);
+    Debug.Log("new_y: " + new_y);
+    rb.position = new Vector2(new_x, new_y);
 
     // The following is for human-player control, and does not apply to the Earth player
     if (Owner == player.Earth) {
