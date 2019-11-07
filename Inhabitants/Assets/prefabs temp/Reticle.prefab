@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cea2830c7fe97d841997056c44e081da, type: 3}
-  m_Color: {r: 1, g: 0.0047169924, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.0047169924, b: 1, a: 0.627451}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -116,6 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rainstorm: {fileID: -4004575448336835489, guid: d52ee7762485f4e4a8179045e02828ae,
     type: 3}
+  Deer: {fileID: 8547144441851909567, guid: 17bd83b2b7f02c84ebcc0c0654c5a339, type: 3}
+  Wolf: {fileID: 1602488498474688564, guid: 34050c942dc92c144a2f4fe898c9e86c, type: 3}
 --- !u!58 &2312616099192588906
 CircleCollider2D:
   m_ObjectHideFlags: 0

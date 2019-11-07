@@ -93,5 +93,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 882791fba4e128544b7c126fc2b64e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rainstorm_time: 5
-  delta: 50
+  rainstorm_time: 12
+  delta: 0.1

@@ -16,6 +16,9 @@ public class status_controller : MonoBehaviour
 
     public float treeLevel = 0.5f, airLevel = 0.5f, temperatureLevel = 0.5f;
 
+    region[] regions;
+
+
     private void Awake()
     {
         instance = this;
@@ -24,13 +27,12 @@ public class status_controller : MonoBehaviour
     // Start is called before the first frame update 
     void Start()
     {
-
+      regions = FindObjectsOfType<region>();
     }
 
     // Update is called once per frame 
     void Update()
     {
-        region[] regions = FindObjectsOfType<region>();
         int occupied = 0;
         for(int i = 0; i < regions.Length; i++)
         {

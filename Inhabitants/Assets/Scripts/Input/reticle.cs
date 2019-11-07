@@ -4,7 +4,7 @@ using UnityEngine;
 using XboxCtrlrInput;
 using ReticleControlInput;
 
-public class reticle : MonoBehaviour, IPlayerInput {
+public class reticle : MonoBehaviour {
 
   // Static settings
   private static float speed_mult = 4f;
@@ -30,13 +30,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
   private static LayerMask region_mask;
   private static ContactFilter2D contactFilter = new ContactFilter2D();
   private bool rTrigger_down_prev = false;
-
-  private int controllerNum;
-  private string hAxisString;
-  private string vAxisString;
-  private string selectString;
-  private string ownerSetString;
-  private string ownerRemoveString;
+  
 
   // Init
   private void Awake() {
@@ -48,7 +42,10 @@ public class reticle : MonoBehaviour, IPlayerInput {
     }
 
     // Init visuals
-    sr.color = player_data.colors[(int)Owner];
+    Color fadedCol = player_data.colors[(int)Owner];
+    fadedCol.a = sr.color.a;
+    sr.color = fadedCol;
+
     arrow_cap.color = player_data.colors[(int)Owner];
     line_to_active_region.startColor = player_data.colors[(int)Owner];
     line_to_active_region.endColor = player_data.colors[(int)Owner];
@@ -60,19 +57,11 @@ public class reticle : MonoBehaviour, IPlayerInput {
     contactFilter.NoFilter();
     contactFilter.useLayerMask = true;
     contactFilter.layerMask = region_mask;
-
-    controllerNum = ConvertControllerToNumber();
-    hAxisString = "P" + controllerNum + "Horizontal";
-    vAxisString = "P" + controllerNum + "Vertical";
-    selectString = "Fire" + controllerNum;
-    ownerSetString = "P" + controllerNum + "SetOwner";
-    ownerRemoveString = "P" + controllerNum + "RemoveOwner";
   }
 
   // Update is called once per frame
   void Update() {
     // Update position based on controller input
-    // Vector2 velo = new Vector2(XCI.GetAxis(XboxAxis.LeftStickX, controller), XCI.GetAxis(XboxAxis.LeftStickY, controller));
     Vector2 velo = new Vector2(RCI.GetAxis(XboxAxis.LeftStickX, controller), RCI.GetAxis(XboxAxis.LeftStickY, controller));
 
     velo *= speed_mult;
@@ -84,12 +73,21 @@ public class reticle : MonoBehaviour, IPlayerInput {
       rb.position += velo * Time.deltaTime;
     }
 
+    Vector2 cam_min = Camera.main.ViewportToWorldPoint(new Vector3(0, 0));
+    Vector2 cam_max = Camera.main.ViewportToWorldPoint(new Vector3(1f, 1f));
+    Debug.Log("cam_min: " + cam_min);
+    Debug.Log("cam_max: " + cam_max);
+    float new_x = Mathf.Clamp(rb.position.x, cam_min.x, cam_max.x);
+    float new_y = Mathf.Clamp(rb.position.y, cam_min.y, cam_max.y);
+    Debug.Log("new_x: " + new_x);
+    Debug.Log("new_y: " + new_y);
+    rb.position = new Vector2(new_x, new_y);
+
     // The following is for human-player control, and does not apply to the Earth player
     if (Owner == player.Earth) {
       return;
     }
 
-    // Vector2 rightStickAim = new Vector2(XCI.GetAxis(XboxAxis.RightStickX, controller), XCI.GetAxis(XboxAxis.RightStickY, controller));
     Vector2 rightStickAim = new Vector2(RCI.GetAxis(XboxAxis.RightStickX, controller), RCI.GetAxis(XboxAxis.RightStickY, controller));
 
     // Update over_region using raycast, rather than trigger enter/exit
@@ -110,7 +108,7 @@ public class reticle : MonoBehaviour, IPlayerInput {
       // TODO - Highlight active region here
       //transform.position = active_region.centerpoint;
       if (rightStickAim.magnitude != 0) {
-        aimed_at_region = raycast_to_region(rightStickAim);
+        aimed_at_region = raycast_to_region(active_region.centerpoint, rightStickAim, active_region.gameObject);
       } else {
         aimed_at_region = null;
       }
@@ -157,7 +155,6 @@ public class reticle : MonoBehaviour, IPlayerInput {
       Vector2 line_mid_pos = (line_end_pos - line_start_pos) / 2f + line_start_pos + perp_dir * 0.05f * main_dir.magnitude;
       line_to_active_region.SetPositions(new Vector3[] { line_start_pos, line_mid_pos, line_end_pos });
       arrow_cap.transform.position = line_end_pos;
-      //arrow_cap.transform.LookAt(line_mid_pos, Vector3.back);
       arrow_cap.transform.right = (Vector2)arrow_cap.transform.position - line_mid_pos;
     }
   }
@@ -210,14 +207,14 @@ public class reticle : MonoBehaviour, IPlayerInput {
   }
 
   // Returns the nearest region in the "dir" direction. Returns null if none exists
-  private region raycast_to_region(Vector2 dir) {
+  private static region raycast_to_region(Vector2 src, Vector2 dir, GameObject exclude) {
     List<RaycastHit2D> results = new List<RaycastHit2D>();
-    Physics2D.Raycast(active_region.centerpoint, dir, contactFilter, results);
+    Physics2D.Raycast(src, dir, contactFilter, results);
 
     region closest = null;
     float min_dist = float.MaxValue;
     foreach (RaycastHit2D hit in results) {
-      if (hit.collider != null && hit.collider.gameObject != active_region.gameObject && hit.distance < min_dist) {
+      if (hit.collider != null && hit.collider.gameObject != exclude && hit.distance < min_dist) {
         region hit_region = hit.collider.GetComponent<region>();
         if (hit_region != null) {
           closest = hit_region;
@@ -230,53 +227,4 @@ public class reticle : MonoBehaviour, IPlayerInput {
     return closest;
   }
 
-  /// <summary>
-  /// Wrappper method to grab input on horizontal axis for a player.
-  /// Checks to see if the player is using a controller first. If so, use that for input.
-  /// If not, use the keyboard via preset axes in the InputManager.
-  /// </summary>
-  /// <returns></returns>
-  public float MoveX() {
-    return XCI.GetNumPluggedCtrlrs() >= controllerNum ?
-        XCI.GetAxis(XboxAxis.LeftStickX, controller) : Input.GetAxis(hAxisString);
-  }
-
-  /// <summary>
-  /// Wrappper method to grab input on vertical axis for a player.
-  /// Checks to see if the player is using a controller first. If so, use that for input.
-  /// If not, use the keyboard via preset axes in the InputManager.
-  /// </summary>
-  /// <returns></returns>
-  public float MoveY() {
-    return XCI.GetNumPluggedCtrlrs() >= controllerNum ?
-        XCI.GetAxis(XboxAxis.LeftStickX, controller) : Input.GetAxis(vAxisString);
-  }
-
-  public bool SelectionButtonDown() {
-    bool inputStatus = Input.GetButtonDown(selectString) ? true : Input.GetButton(selectString);
-
-    return XCI.GetNumPluggedCtrlrs() >= controllerNum ?
-        XCI.GetButtonDown(XboxButton.A, controller) : inputStatus;
-  }
-
-  public bool OwnerSetButtonDown() {
-    return XCI.GetNumPluggedCtrlrs() >= controllerNum ?
-        XCI.GetButtonDown(XboxButton.RightBumper, controller) : Input.GetButtonDown(ownerSetString);
-  }
-
-  public bool OwnerRemoveButtonDown() {
-    return XCI.GetNumPluggedCtrlrs() >= controllerNum ?
-        XCI.GetButtonDown(XboxButton.LeftBumper, controller) : Input.GetButtonDown(ownerRemoveString);
-  }
-
-  /// <summary>
-  /// Converts a controller to a number. Sadly there's no builtin conversion method in XCI...
-  /// </summary>
-  /// <returns></returns>
-  private int ConvertControllerToNumber() {
-    if (controller == XboxController.First) return 1;
-    else if (controller == XboxController.Second) return 2;
-    else if (controller == XboxController.Third) return 3;
-    else return 4;
-  }
 }
