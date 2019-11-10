@@ -98,6 +98,7 @@ public class cell_controller : MonoBehaviour
         growth *= Random.Range(1.0f - growth_random, 1.0f + growth_random);
         float result = self + Time.deltaTime * growth;
         result = Mathf.Clamp01(result);
+        if(self >= 0.75f && result < 0.75f) return 0.75f; //clamp without automatic decrease
         return result;
     }
 
