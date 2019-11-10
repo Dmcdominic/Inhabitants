@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +17,8 @@ public class status_controller : MonoBehaviour
     public float treeLevel = 0.5f, airLevel = 0.5f, temperatureLevel = 0.5f;
 
     region[] regions;
+
+    private float disaster_accum;
 
 
     private void Awake()
@@ -53,5 +55,16 @@ public class status_controller : MonoBehaviour
         trees.fillAmount = treeLevel;
         air.fillAmount = airLevel;
         temperature.fillAmount = temperatureLevel;
+
+        //Checks for a disaster once every second
+        //Disasters are more likely when the temperature level is low
+        for (disaster_accum += Time.deltaTime; disaster_accum >= 1; disaster_accum -= 1)
+        {
+            if (Mathf.Pow(Random.Range(0f, 1f), 15) > temperatureLevel)
+            {
+                disaster.setDisaster(true);
+            }
+        }
+
     }
 }
