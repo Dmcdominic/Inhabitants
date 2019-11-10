@@ -14,9 +14,12 @@ public class reticle : MonoBehaviour {
 
   // Editor fields
   public player Owner;
-  public XboxController controller;
   public LineRenderer line_to_active_region;
   public SpriteRenderer arrow_cap;
+
+  // Hidden vars
+  [HideInInspector]
+  public XboxController controller;
 
   // Private vars
   private Rigidbody2D rb;
@@ -36,6 +39,7 @@ public class reticle : MonoBehaviour {
   private void Awake() {
     rb = GetComponent<Rigidbody2D>();
     sr = GetComponent<SpriteRenderer>();
+    controller = player_data.controllers[(int)Owner];
     earth_Reticle = GetComponent<earth_reticle>();
     if (Owner != player.Earth) {
       earth_Reticle.enabled = false;

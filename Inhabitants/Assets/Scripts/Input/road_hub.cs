@@ -92,8 +92,10 @@ public class road_hub : MonoBehaviour {
     road_renderer.enabled = true;
 
     // Destroy trees along the road
-    foreach(Vector3 pos in current_midpoints) {
-      cell_controller.instance.growTrees(pos, tree_destruction_radius, on_build_tree_delta);
+    if (source.Policy != policy.eco) {
+      foreach (Vector3 pos in current_midpoints) {
+        cell_controller.instance.growTrees(pos, tree_destruction_radius, on_build_tree_delta);
+      }
     }
   }
 
