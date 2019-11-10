@@ -73,14 +73,11 @@ public class reticle : MonoBehaviour {
       rb.position += velo * Time.deltaTime;
     }
 
+    // Clamp the reticle within the camera bounds
     Vector2 cam_min = Camera.main.ViewportToWorldPoint(new Vector3(0, 0));
     Vector2 cam_max = Camera.main.ViewportToWorldPoint(new Vector3(1f, 1f));
-    Debug.Log("cam_min: " + cam_min);
-    Debug.Log("cam_max: " + cam_max);
     float new_x = Mathf.Clamp(rb.position.x, cam_min.x, cam_max.x);
     float new_y = Mathf.Clamp(rb.position.y, cam_min.y, cam_max.y);
-    Debug.Log("new_x: " + new_x);
-    Debug.Log("new_y: " + new_y);
     rb.position = new Vector2(new_x, new_y);
 
     // The following is for human-player control, and does not apply to the Earth player
