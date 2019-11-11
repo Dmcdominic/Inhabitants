@@ -39,7 +39,10 @@ public class status_controller : MonoBehaviour
         for(int i = 0; i < regions.Length; i++)
         {
             region r = regions[i];
-            if(r.Owner.Equals(player.A) || r.Owner.Equals(player.B))
+            if(r.City.Policy == policy.industry)
+            {
+                occupied += 2;
+            } else if(r.City.Policy == policy.neutral)
             {
                 occupied++;
             }
