@@ -5,6 +5,9 @@ using TMPro;
 
 public class region : MonoBehaviour {
 
+  // Static settings
+  private const float ecoRainGrowthMult = 2f;
+
   // Public fields
   public int area;
   public moving_units movingUnits;
@@ -26,6 +29,11 @@ public class region : MonoBehaviour {
     get { return policy_manager.policies[(int)Owner]; }
   }
 
+  [HideInInspector]
+  public bool gettingRainedOn = false;
+
+  public static List<region> allRegions = new List<region>();
+
   // Components
   public TextMeshPro unit_text;
   public city City;
@@ -45,6 +53,8 @@ public class region : MonoBehaviour {
     road_Hub = GetComponent<road_hub>();
     //spriteOutline.enabled = false;
     City.Region = this;
+
+    allRegions.Add(this);
   }
 
   // Start is called before the first frame update
@@ -124,7 +134,7 @@ public class region : MonoBehaviour {
         case policy.neutral:
           return current_rate * 1.2f;
         case policy.eco:
-          return current_rate * 1f;
+          return current_rate * (gettingRainedOn ? ecoRainGrowthMult : 1f);
         default:
           return current_rate;
       }

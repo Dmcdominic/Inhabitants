@@ -35,20 +35,20 @@ public class status_controller : MonoBehaviour
     // Update is called once per frame 
     void Update()
     {
-        int occupied = 0;
+        industryLevel = 0;
         for(int i = 0; i < regions.Length; i++)
         {
             region r = regions[i];
             if(r.City.Policy == policy.industry)
             {
-                occupied += 2;
+                industryLevel += 1.0f;
             } else if(r.City.Policy == policy.neutral)
             {
-                occupied++;
+                industryLevel += 0.3f;
             }
         }
 
-        industryLevel = (float)occupied / (float)regions.Length;
+        industryLevel = industryLevel / (float)regions.Length;
 
         treeLevel = cell_controller.instance.treeLevel();
         airLevel = Mathf.Clamp(airLevel + (treeLevel - 0.5f) * airSpeed * Time.deltaTime

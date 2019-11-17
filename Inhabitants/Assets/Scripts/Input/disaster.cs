@@ -10,9 +10,7 @@ public class disaster : MonoBehaviour
 
     public static float earthquake_radius = 0.7f;
     public static disaster instance;
-
-    //Track all regions in order to delete their units
-    public static region[] regions;
+    
 
     private void Awake()
     {
@@ -23,27 +21,19 @@ public class disaster : MonoBehaviour
     void Start()
     {
         disaster_indicator.SetActive(disaster_queued);
-        regions = FindObjectsOfType<region>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //regions = FindObjectsOfType<region>();
     }
 
     //Disaster logic, destroys trees and units in a region
-    public static void causeDisaster(Vector2 pos, float radius)
-    {
-        cell_controller.instance.growTrees(pos, radius, -1);
-        for(int i = 0; i < regions.Length; i++)
-        {
-            if(Vector2.Distance(pos, regions[i].centerpoint) <= radius)
-            {
-                regions[i].units = 20;
-                regions[i].Owner = player.none;
-            }
+    public static void causeDisaster(Vector2 pos, float radius) {
+      mixer.playSFX("earthquake");
+      cell_controller.instance.growTrees(pos, radius, -1);
+      foreach (region Region in region.allRegions) {
+        if(Vector2.Distance(pos, Region.centerpoint) <= radius) {
+          Region.units = 20;
+          Region.Owner = player.none;
         }
+      }
     }
 
     public static bool isDisasterQueued()
