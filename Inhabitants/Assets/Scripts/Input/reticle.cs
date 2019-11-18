@@ -9,6 +9,8 @@ public class reticle : MonoBehaviour {
   // Static settings
   private static float speed_mult = 4f;
   private static float speed_cap = 3.5f;
+  private static float earth_speed_adj = 0.75f;
+
   private static float raycast_radius = 0.18f;
   private static float rTrigger_thresh = 0.25f;
 
@@ -34,6 +36,10 @@ public class reticle : MonoBehaviour {
   private static ContactFilter2D contactFilter = new ContactFilter2D();
   private bool rTrigger_down_prev = false;
   
+  private float speed_adj {
+    get { return Owner == player.Earth ? earth_speed_adj : 1f; }
+  }
+
 
   // Init
   private void Awake() {
@@ -68,10 +74,10 @@ public class reticle : MonoBehaviour {
     // Update position based on controller input
     Vector2 velo = new Vector2(RCI.GetAxis(XboxAxis.LeftStickX, controller), RCI.GetAxis(XboxAxis.LeftStickY, controller));
 
-    velo *= speed_mult;
-    if (velo.sqrMagnitude > speed_cap) {
+    velo *= speed_mult * speed_adj;
+    if (velo.sqrMagnitude > speed_cap * speed_adj) {
       velo.Normalize();
-      velo *= speed_cap;
+      velo *= speed_cap * speed_adj;
     }
     if (active_region == null) {
       rb.position += velo * Time.deltaTime;

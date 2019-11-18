@@ -11,6 +11,7 @@ public class road_hub : MonoBehaviour {
   private static int midpt_count = 8;
   //private static float visual_pulse_freq = 0.5f;
   //private static float pulse_margin = 0.12f;
+  private static Vector2 midpt_offset = new Vector2(0, -0.12f);
 
   private static float tree_destruction_radius = 0.1f;
   private static float on_build_tree_delta = -1f;
@@ -77,6 +78,9 @@ public class road_hub : MonoBehaviour {
       if (no_build) return;
     }
 
+    // Play sound effect
+    mixer.playSFX("road");
+
     dest = target;
     units_cap = source.units;
 
@@ -87,7 +91,7 @@ public class road_hub : MonoBehaviour {
 
     // Build the road (visually)
     road_renderer.positionCount = midpt_count + 2;
-    current_midpoints = midpoints(source.centerpoint, dest.centerpoint, midpt_count);
+    current_midpoints = midpoints(source.centerpoint + midpt_offset, dest.centerpoint + midpt_offset, midpt_count);
     road_renderer.SetPositions(current_midpoints);
     road_renderer.enabled = true;
 

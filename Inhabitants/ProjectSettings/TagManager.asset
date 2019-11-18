@@ -44,7 +44,10 @@ TagManager:
   - name: Map
     uniqueID: 2040293797
     locked: 0
-  - name: Trees
+  - name: Tree Trunks
+    uniqueID: 4152477335
+    locked: 0
+  - name: Tree Leaves
     uniqueID: 3807503445
     locked: 0
   - name: Default
@@ -61,4 +64,7 @@ TagManager:
     locked: 0
   - name: HUD
     uniqueID: 3636465397
+    locked: 0
+  - name: Smog
+    uniqueID: 2393780825
     locked: 0

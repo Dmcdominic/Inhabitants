@@ -22,22 +22,24 @@ public class policy_manager : MonoBehaviour {
       int Player = (i == 0) ? (int)player.A : (int)player.B;
       int currentPolicy = (int)policies[Player];
       policy newPolicy = (policy)currentPolicy;
+
       XboxController controller = player_data.controllers[Player];
       if (RCI.GetButtonDown(XboxButton.DPadDown, controller)) {
         newPolicy = (policy)Mathf.Clamp(currentPolicy - 1, 1, policiesCount - 1);
       } else if (RCI.GetButtonDown(XboxButton.DPadUp, controller)) {
         newPolicy = (policy)Mathf.Clamp(currentPolicy + 1, 1, policiesCount - 1);
       }
+
       if (newPolicy != policies[Player]) {
         policies[Player] = newPolicy;
         //city.updatePoliciesAll(Player, (policy)newPolicy);
-        // TODO - play sound effect
+        // Play corresponding sound effect
         if (newPolicy == policy.industry) {
-          // TODO - play industry sfx
+          mixer.playSFX("ind policy");
         } else if (newPolicy == policy.neutral) {
-          // TODO - play neutral sfx
+          mixer.playSFX("population growth");
         } else if (newPolicy == policy.eco) {
-          // TODO - play eco sfx
+          mixer.playSFX("eco policy");
         }
       }
     }
