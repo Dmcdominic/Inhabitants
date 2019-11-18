@@ -5,15 +5,20 @@ using UnityEngine;
 public class mixer : MonoBehaviour
 {
     public AudioSource musicPlayer;
-    public AudioClip introMusic;
-    public AudioClip ecoMusic;
-    public AudioClip neuMusic;
-    public AudioClip indMusic;
-    public static AudioSource fxSource;
-    public float ecoCutoff = 0.4f;
-    public float indCutoff = 0.6f;
-    public float value = 0f;
-
+    public AudioClip introClip;
+    public AudioClip eco1Clip, eco2Clip, eco3Clip;
+	public AudioClip neuEcoClip, neuIndClip;
+	public AudioClip ind1Clip, ind2Clip, ind3Clip;
+	public static AudioSource fxSource;
+    public float eco1Cutoff = 0.15f;
+    public float eco2Cutoff = 0.30f;
+    public float eco3Cutoff = 0.45f;
+    public float ind1Cutoff = 0.55f;
+    public float ind2Cutoff = 0.70f;
+    public float ind3Cutoff = 0.85f;
+    public float industryLevel = 0f;
+    private bool indPlayed = false;
+    private bool gameStarted = false;
 
     public static void playSFX(string sfx)
     {
@@ -66,8 +71,7 @@ public class mixer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //musicPlayer = GetComponent<AudioSource>();
-        musicPlayer.clip = introMusic;
+        musicPlayer.clip = introClip;
         musicPlayer.Play();
     }
 
@@ -75,22 +79,52 @@ public class mixer : MonoBehaviour
     void Update()
     {
         // Update the current industry value
-        value = status_controller.industryLevel;
+        industryLevel = status_controller.industryLevel;
 
         if (!musicPlayer.isPlaying)
         {
-            if (value < ecoCutoff)
+            if (industryLevel < eco1Cutoff)
             {
-                musicPlayer.clip = ecoMusic;
+                musicPlayer.clip = eco1Clip;
+				indPlayed = false;
             }
-            else if (ecoCutoff <= value && value < indCutoff)
+			else if (eco1Cutoff <= industryLevel && industryLevel < eco2Cutoff)
+			{
+				musicPlayer.clip = eco2Clip;
+				indPlayed = false;
+			}
+			else if (eco2Cutoff <= industryLevel && industryLevel < eco3Cutoff)
+			{
+				musicPlayer.clip = eco3Clip;
+				indPlayed = false;
+			}
+			else if (eco3Cutoff <= industryLevel && industryLevel < ind1Cutoff)
+			{
+				if (!indPlayed)
+				{
+					musicPlayer.clip = neuEcoClip;
+					indPlayed = true;
+				}
+				else {
+					musicPlayer.clip = neuIndClip;
+					indPlayed = false;
+                }
+			}
+			else if (ind1Cutoff <= industryLevel && industryLevel < ind2Cutoff)
+			{
+				musicPlayer.clip = ind1Clip;
+				indPlayed = true;
+			}
+			else if (ind2Cutoff <= industryLevel && industryLevel < ind3Cutoff)
+			{
+				musicPlayer.clip = ind2Clip;
+				indPlayed = true;
+			}
+			else if (ind3Cutoff <= industryLevel)
             {
-                musicPlayer.clip = neuMusic;
-            }
-            else if (indCutoff <= value)
-            {
-                musicPlayer.clip = indMusic;
-            }
+                musicPlayer.clip = ind3Clip;
+				indPlayed = true;
+			}
             musicPlayer.Play();
         }
     }
