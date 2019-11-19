@@ -8,6 +8,8 @@ public class MultiDisplayScript : MonoBehaviour {
   public Camera HumanCam;
   public Camera EarthCam;
 
+  public Canvas playerCanvas;
+
 
   // Start is called before the first frame update
   void Start() {
@@ -22,6 +24,8 @@ public class MultiDisplayScript : MonoBehaviour {
     HumanCam.gameObject.SetActive(!singleDisplay);
     EarthCam.gameObject.SetActive(!singleDisplay);
     allSeeingCam.gameObject.SetActive(singleDisplay);
+
+        playerCanvas.worldCamera = singleDisplay ? allSeeingCam : HumanCam;
   }
 
 }
