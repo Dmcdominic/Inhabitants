@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: c11e260e8d3659743ae137508536ceca
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: The World Is Yours
+  fontNames:
+  - The World Is Yours
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0977ca187b78f044993d9959b046bda0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

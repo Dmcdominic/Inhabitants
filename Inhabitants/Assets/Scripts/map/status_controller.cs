@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +18,8 @@ public class status_controller : MonoBehaviour
 
     region[] regions;
 
+    private float disaster_accum;
+
 
     private void Awake()
     {
@@ -33,17 +35,20 @@ public class status_controller : MonoBehaviour
     // Update is called once per frame 
     void Update()
     {
-        int occupied = 0;
+        industryLevel = 0;
         for(int i = 0; i < regions.Length; i++)
         {
             region r = regions[i];
-            if(r.Owner.Equals(player.A) || r.Owner.Equals(player.B))
+            if(r.City.Policy == policy.industry)
             {
-                occupied++;
+                industryLevel += 1.0f;
+            } else if(r.City.Policy == policy.neutral)
+            {
+                industryLevel += 0.3f;
             }
         }
 
-        industryLevel = (float)occupied / (float)regions.Length;
+        industryLevel = industryLevel / (float)regions.Length;
 
         treeLevel = cell_controller.instance.treeLevel();
         airLevel = Mathf.Clamp(airLevel + (treeLevel - 0.5f) * airSpeed * Time.deltaTime
@@ -53,5 +58,16 @@ public class status_controller : MonoBehaviour
         trees.fillAmount = treeLevel;
         air.fillAmount = airLevel;
         temperature.fillAmount = temperatureLevel;
+
+        //Checks for a disaster once every second
+        //Disasters are more likely when the temperature level is low
+        for (disaster_accum += Time.deltaTime; disaster_accum >= 1; disaster_accum -= 1)
+        {
+            if (Mathf.Pow(Random.Range(0f, 1f), 15) > temperatureLevel)
+            {
+                disaster.setDisaster(true);
+            }
+        }
+
     }
 }

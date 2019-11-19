@@ -247,8 +247,8 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1018854095
-  m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingLayer: 3
+  m_SortingOrder: -5
 --- !u!33 &362702776507753183
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -592,9 +592,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -240041571
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 3e9ac0a8c9c1cfa4f9b206ca974314ec, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e84227ed7198ced4e8d198e36da0c835, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -617,3 +617,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cceac22edbed2ab459de1f22f96226b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 1607415590457174454}
+  industrySprite: {fileID: 21300000, guid: 3e9ac0a8c9c1cfa4f9b206ca974314ec, type: 3}
+  neutralSprite: {fileID: 21300000, guid: 3d2809f513d3edd4bb22c1281b1e3174, type: 3}
+  ecoSprite: {fileID: 21300000, guid: 87c099c84ee1fb446b269a36b5acbce7, type: 3}
+  untakenSprite: {fileID: 21300000, guid: e84227ed7198ced4e8d198e36da0c835, type: 3}
+  Region: {fileID: 0}
+  Policy: 0

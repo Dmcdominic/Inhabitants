@@ -9,14 +9,19 @@ public class reticle : MonoBehaviour {
   // Static settings
   private static float speed_mult = 4f;
   private static float speed_cap = 3.5f;
+  private static float earth_speed_adj = 0.75f;
+
   private static float raycast_radius = 0.18f;
   private static float rTrigger_thresh = 0.25f;
 
   // Editor fields
   public player Owner;
-  public XboxController controller;
   public LineRenderer line_to_active_region;
   public SpriteRenderer arrow_cap;
+
+  // Hidden vars
+  [HideInInspector]
+  public XboxController controller;
 
   // Private vars
   private Rigidbody2D rb;
@@ -31,18 +36,26 @@ public class reticle : MonoBehaviour {
   private static ContactFilter2D contactFilter = new ContactFilter2D();
   private bool rTrigger_down_prev = false;
   
+  private float speed_adj {
+    get { return Owner == player.Earth ? earth_speed_adj : 1f; }
+  }
+
 
   // Init
   private void Awake() {
     rb = GetComponent<Rigidbody2D>();
     sr = GetComponent<SpriteRenderer>();
+    controller = player_data.controllers[(int)Owner];
     earth_Reticle = GetComponent<earth_reticle>();
     if (Owner != player.Earth) {
       earth_Reticle.enabled = false;
     }
 
     // Init visuals
-    sr.color = player_data.colors[(int)Owner];
+    Color fadedCol = player_data.colors[(int)Owner];
+    fadedCol.a = sr.color.a;
+    sr.color = fadedCol;
+
     arrow_cap.color = player_data.colors[(int)Owner];
     line_to_active_region.startColor = player_data.colors[(int)Owner];
     line_to_active_region.endColor = player_data.colors[(int)Owner];
@@ -61,14 +74,21 @@ public class reticle : MonoBehaviour {
     // Update position based on controller input
     Vector2 velo = new Vector2(RCI.GetAxis(XboxAxis.LeftStickX, controller), RCI.GetAxis(XboxAxis.LeftStickY, controller));
 
-    velo *= speed_mult;
-    if (velo.sqrMagnitude > speed_cap) {
+    velo *= speed_mult * speed_adj;
+    if (velo.sqrMagnitude > speed_cap * speed_adj) {
       velo.Normalize();
-      velo *= speed_cap;
+      velo *= speed_cap * speed_adj;
     }
     if (active_region == null) {
       rb.position += velo * Time.deltaTime;
     }
+
+    // Clamp the reticle within the camera bounds
+    Vector2 cam_min = Camera.main.ViewportToWorldPoint(new Vector3(0, 0));
+    Vector2 cam_max = Camera.main.ViewportToWorldPoint(new Vector3(1f, 1f));
+    float new_x = Mathf.Clamp(rb.position.x, cam_min.x, cam_max.x);
+    float new_y = Mathf.Clamp(rb.position.y, cam_min.y, cam_max.y);
+    rb.position = new Vector2(new_x, new_y);
 
     // The following is for human-player control, and does not apply to the Earth player
     if (Owner == player.Earth) {

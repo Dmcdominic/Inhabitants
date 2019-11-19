@@ -5,6 +5,9 @@ using TMPro;
 
 public class region : MonoBehaviour {
 
+  // Static settings
+  private const float ecoRainGrowthMult = 2f;
+
   // Public fields
   public int area;
   public moving_units movingUnits;
@@ -22,11 +25,21 @@ public class region : MonoBehaviour {
   }
   protected float _units_real;
 
+  public policy Policy {
+    get { return policy_manager.policies[(int)Owner]; }
+  }
+
+  [HideInInspector]
+  public bool gettingRainedOn = false;
+
+  public static List<region> allRegions = new List<region>();
+
   // Components
   public TextMeshPro unit_text;
   public city City;
 
   // Hidden components
+  private SpriteRenderer ownerShade_sr;
   [HideInInspector]
   public SpriteOutline spriteOutline;
   [HideInInspector]
@@ -35,9 +48,13 @@ public class region : MonoBehaviour {
 
   // Init
   private void Awake() {
+    ownerShade_sr = GetComponent<SpriteRenderer>();
     spriteOutline = GetComponent<SpriteOutline>();
     road_Hub = GetComponent<road_hub>();
     //spriteOutline.enabled = false;
+    City.Region = this;
+
+    allRegions.Add(this);
   }
 
   // Start is called before the first frame update
@@ -51,6 +68,16 @@ public class region : MonoBehaviour {
     unit_text.text = units.ToString();
     unit_text.color = player_data.colors[(int)Owner];
     spriteOutline.color = player_data.colors[(int)Owner];
+
+    // Update the owner color overlay
+    if (Owner == player.A || Owner == player.B) {
+      Color transparentCol = player_data.colors[(int)Owner];
+      transparentCol.a = 0.2f;
+      ownerShade_sr.color = transparentCol;
+      ownerShade_sr.enabled = true;
+    } else {
+      ownerShade_sr.enabled = false;
+    }
   }
 
   public void send_units(region region_target) {
@@ -85,8 +112,12 @@ public class region : MonoBehaviour {
     road_Hub.build_road(target);
   }
 
-  public void clear_some_nearby_trees(float radius = 0.9f, float delta = -0.5f) {
-    cell_controller.instance.growTrees(centerpoint, radius, delta);
+  public void affect_some_nearby_trees(float radius = 0.9f, float delta = 0.5f) {
+    if (Policy == policy.eco) {
+      cell_controller.instance.growTrees(centerpoint, radius, delta);
+    } else if (Policy == policy.industry) {
+      cell_controller.instance.growTrees(centerpoint, radius, -delta);
+    }
   }
 
   // Determine the growth rate of this region
@@ -96,7 +127,17 @@ public class region : MonoBehaviour {
         return 0;
       }
       float current_rate = Mathf.Sqrt(units_real) / 12f + 0.2f;
-      return current_rate;
+
+      switch (Policy) {
+        case policy.industry:
+          return current_rate * 1.2f;
+        case policy.neutral:
+          return current_rate * 1.2f;
+        case policy.eco:
+          return current_rate * (gettingRainedOn ? ecoRainGrowthMult : 1f);
+        default:
+          return current_rate;
+      }
     }
   }
 
