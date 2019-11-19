@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8547144441851909567}
   - component: {fileID: 8547144441851909566}
   m_Layer: 0
-  m_Name: New Sprite (1) 1
+  m_Name: deercircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.1986472, g: 0.6792453, b: 0.27840695, a: 0.61960787}
+  m_Color: {r: 0.7264151, g: 0.25083247, b: 0.21929513, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ed218c74d549c4e83c456aabd0f978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deer_rep: {fileID: 6353541718303256182, guid: 25957d65cd51cca4e841ae5e2b9f1994,
+    type: 3}
   colony_num: 100
   tree_effect: 1
   radius: 1

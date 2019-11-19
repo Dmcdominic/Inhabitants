@@ -125,8 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f0c985f6f76438d993c33bd000c327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noTrees: {fileID: 21300000, guid: af8fcc9e7425d4af0bd6ed0596eadd18, type: 3}
-  withTrees: {fileID: 21300000, guid: 7adbe7cb463253443b397c2e9279a10a, type: 3}
 --- !u!1 &3520113972398842714
 GameObject:
   m_ObjectHideFlags: 0
