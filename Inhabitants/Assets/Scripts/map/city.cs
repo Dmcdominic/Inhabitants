@@ -37,11 +37,17 @@ public class city : MonoBehaviour {
 
   // Set this city to a new policy
   public void setPolicy(policy newPolicy) {
+    if (newPolicy == policy.neutral && Policy == policy.eco) {
+      Region.affect_some_nearby_trees(0.9f, -0.4f, true);
+    } else if (newPolicy == policy.neutral && Policy == policy.eco) {
+      Region.affect_some_nearby_trees(0.9f, 0.2f, true);
+    }
+
     Policy = newPolicy;
     switch (newPolicy) {
       case policy.industry:
         sr.sprite = industrySprite;
-        Region.affect_some_nearby_trees();
+        Region.affect_some_nearby_trees(0.9f, 0.5f);
         break;
       case policy.neutral:
         sr.sprite = neutralSprite;

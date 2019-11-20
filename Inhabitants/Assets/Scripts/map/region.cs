@@ -112,7 +112,12 @@ public class region : MonoBehaviour {
     road_Hub.build_road(target);
   }
 
-  public void affect_some_nearby_trees(float radius = 0.9f, float delta = 0.5f) {
+  public void affect_some_nearby_trees(float radius = 0.9f, float delta = 0.5f, bool forced = false) {
+    if (forced) {
+      cell_controller.instance.growTrees(centerpoint, radius, delta);
+      return;
+    }
+    
     if (Policy == policy.eco) {
       cell_controller.instance.growTrees(centerpoint, radius, delta);
     } else if (Policy == policy.industry) {

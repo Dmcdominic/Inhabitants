@@ -192,9 +192,8 @@ public class reticle : MonoBehaviour {
           } else {
             touching_regions[Region] = 1;
           }
-        } else {
-          Debug.LogError("Object in Regions layer hit, but does not have region component");
         }
+        // Otherwise, this is a "blocker" region
       }
     }
 
@@ -218,20 +217,24 @@ public class reticle : MonoBehaviour {
     List<RaycastHit2D> results = new List<RaycastHit2D>();
     Physics2D.Raycast(src, dir, contactFilter, results);
 
-    region closest = null;
+    GameObject closest = null;
     float min_dist = float.MaxValue;
     foreach (RaycastHit2D hit in results) {
       if (hit.collider != null && hit.collider.gameObject != exclude && hit.distance < min_dist) {
-        region hit_region = hit.collider.GetComponent<region>();
-        if (hit_region != null) {
-          closest = hit_region;
-          min_dist = hit.distance;
-        } else {
-          Debug.LogError("raycast_to_region hit an object that does not contain the region component.");
-        }
+        closest = hit.collider.gameObject;
+        min_dist = hit.distance;
       }
     }
-    return closest;
+
+    if (closest != null) {
+      region hit_region = closest.GetComponent<region>();
+      if (hit_region != null) {
+        return hit_region;
+      }
+    }
+
+    // Otherwise, we hit nothing, or a "blocker" region
+    return null;
   }
 
 }
