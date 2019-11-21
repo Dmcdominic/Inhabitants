@@ -94,4 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0
-  speed: 5
+  basestartpoint: {x: 0, y: 0}
+  target: {x: 0, y: 0}
+  speed: 0.1

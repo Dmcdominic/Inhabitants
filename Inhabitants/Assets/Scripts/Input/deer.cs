@@ -22,7 +22,7 @@ public class deer : MonoBehaviour
             deer_reps r = Instantiate(deer_rep,transform.position+pos, Quaternion.identity);
             r.radius = radius;
             r.transform.parent = this.transform;
-            r.basestartpoint = transform.position;
+            r.basestartpoint = r.transform.position;
             deer_r[i] = r;
 
         
@@ -36,10 +36,12 @@ public class deer : MonoBehaviour
     {
         //parameters
         float tree_decrease_rate = -Time.deltaTime * colony_num * 0.001f;
+        float tree_spread_rate= Time.deltaTime * colony_num ;
         float colony_decrease_rate = 10f * Time.deltaTime;
 
         //slow down growth of trees
         cell_controller.instance.growTrees(transform.position, radius, tree_decrease_rate);
+        cell_controller.instance.spread_trees(transform.position, radius, tree_spread_rate);
 
         //if tree density is too small, gradually decrease # of deers
         float deer_d = colony_num * Time.deltaTime * 10;
@@ -93,6 +95,8 @@ public class deer : MonoBehaviour
                 }
             }
         }
+
+
 
         //if there are no deers left
 

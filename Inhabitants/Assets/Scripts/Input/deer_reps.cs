@@ -10,7 +10,7 @@ public class deer_reps : MonoBehaviour
 
     public Vector2 basestartpoint;
     public Vector2 target;
-    public float speed=0.1f;
+    public float speed=0.00001f;
     
     // Start is called before the first frame update
     void Start()
