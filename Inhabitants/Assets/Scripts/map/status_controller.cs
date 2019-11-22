@@ -18,6 +18,7 @@ public class status_controller : MonoBehaviour
     public float treeLevel = 0.5f, airLevel = 0.5f, temperatureLevel = 0.5f;
     
     const float disasterMaxTemp = 0.5f, disasterCheckInterval = 5f;
+    const float thermometer_min_fill = 0.33f;
 
     region[] regions;
 
@@ -58,9 +59,10 @@ public class status_controller : MonoBehaviour
             - industryLevel * cityImpact * Time.deltaTime, 0, 1);
         temperatureLevel = Mathf.Clamp(temperatureLevel + (airLevel - 0.5f) * tempSpeed * Time.deltaTime, 0, 1);
 
-        trees.fillAmount = treeLevel;
-        air.fillAmount = airLevel;
-        temperature.fillAmount = temperatureLevel;
+        //trees.fillAmount = treeLevel;
+        //air.fillAmount = airLevel;
+        //temperature.fillAmount = temperatureLevel;
+        temperature.fillAmount = (temperatureLevel * (1f - thermometer_min_fill)) + thermometer_min_fill;
 
     //Checks for a disaster once every second
     //Disasters are more likely when the temperature level is low

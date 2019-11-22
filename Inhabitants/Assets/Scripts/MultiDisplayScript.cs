@@ -15,6 +15,9 @@ public class MultiDisplayScript : MonoBehaviour {
   public int earthDisplay = 0;
 
   public Canvas playerCanvas;
+  public Canvas earthCanvas;
+
+  public static bool singleDisplay;
 
 
   // Start is called before the first frame update
@@ -39,7 +42,7 @@ public class MultiDisplayScript : MonoBehaviour {
     }
 
     // Enable/Disable cameras accordingly
-    bool singleDisplay = (Display.displays.Length == 1);
+    singleDisplay = (Display.displays.Length == 1);
 
     allSeeingCam.gameObject.SetActive(singleDisplay);
     allSeeingCam.targetDisplay = 0;
@@ -50,10 +53,13 @@ public class MultiDisplayScript : MonoBehaviour {
     EarthCam.targetDisplay = earthDisplay;
 
     playerCanvas.worldCamera = singleDisplay ? allSeeingCam : HumanCam;
+    earthCanvas.worldCamera = singleDisplay ? allSeeingCam : EarthCam;
   }
 
   // Inits all three cameras, to displays one, two, and three accordingly
   private void initCamerasDebug() {
+    singleDisplay = false;
+
     // Enable/Disable cameras accordingly
     allSeeingCam.gameObject.SetActive(true);
     allSeeingCam.targetDisplay = 0;
@@ -64,6 +70,7 @@ public class MultiDisplayScript : MonoBehaviour {
     EarthCam.targetDisplay = 2;
 
     playerCanvas.worldCamera = HumanCam;
+    earthCanvas.worldCamera = EarthCam;
 
     // Delete the extra audio listener on the human camera
     HumanCam.GetComponent<AudioListener>().enabled = false;
