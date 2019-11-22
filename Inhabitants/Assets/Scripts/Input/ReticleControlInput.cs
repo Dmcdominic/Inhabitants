@@ -29,7 +29,7 @@ namespace ReticleControlInput {
       int controllerNum = Ctrl2Num(controller);
 
       if (XCI.GetNumPluggedCtrlrs() >= controllerNum) return XCI.GetButtonDown(button, controller);
-      else return Input.GetButton("P" + controllerNum + button);
+      else return Input.GetButtonDown("P" + controllerNum + button);
 #else
       return XCI.GetButtonDown(button, controller);
 #endif

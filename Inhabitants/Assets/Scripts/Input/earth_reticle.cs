@@ -16,6 +16,7 @@ public class earth_reticle : MonoBehaviour {
     public Rainstorm rainstorm;
     public deer Deer;
     public wolf Wolf;
+    public earthquake dummy_earthquake;
 
     // Components
     private reticle Reticle;
@@ -32,6 +33,7 @@ public class earth_reticle : MonoBehaviour {
     // Called every frame
     private void Update()
     {
+        dummy_earthquake.gameObject.SetActive(disaster.isDisasterQueued());
         if (disaster.isDisasterQueued())
         {
             // Earthquake logic
@@ -39,6 +41,7 @@ public class earth_reticle : MonoBehaviour {
             {
                 disaster.causeDisaster(transform.position, disaster.earthquake_radius);
                 disaster.setDisaster(false);
+                dummy_earthquake.gameObject.SetActive(false);
             }
         }
         else

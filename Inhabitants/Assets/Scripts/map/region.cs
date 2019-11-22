@@ -13,6 +13,7 @@ public class region : MonoBehaviour {
   public moving_units movingUnits;
 
   public player Owner = player.none;
+  public SpriteRenderer region_sr_override;
 
   // Public variables
   public int units {
@@ -48,8 +49,13 @@ public class region : MonoBehaviour {
 
   // Init
   private void Awake() {
-    ownerShade_sr = GetComponent<SpriteRenderer>();
-    spriteOutline = GetComponent<SpriteOutline>();
+    if (region_sr_override) {
+      ownerShade_sr = region_sr_override;
+    } else {
+      ownerShade_sr = GetComponent<SpriteRenderer>();
+    }
+    spriteOutline = ownerShade_sr.gameObject.GetComponent<SpriteOutline>();
+
     road_Hub = GetComponent<road_hub>();
     //spriteOutline.enabled = false;
     City.Region = this;

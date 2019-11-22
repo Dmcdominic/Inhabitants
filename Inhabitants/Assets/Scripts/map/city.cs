@@ -61,4 +61,9 @@ public class city : MonoBehaviour {
         break;
     }
   }
+
+  // Testing
+  private void OnDestroy() {
+    //Debug.Log("I'm a city and I've been destroyed!");
+  }
 }

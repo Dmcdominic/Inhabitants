@@ -55,9 +55,10 @@ public class status_controller : MonoBehaviour
         industryLevel = industryLevel / (float)regions.Length;
 
         treeLevel = cell_controller.instance.treeLevel();
-        airLevel = Mathf.Clamp(airLevel + treeLevel * airSpeed * Time.deltaTime
-            - industryLevel * cityImpact * Time.deltaTime, 0, 1);
-        temperatureLevel = Mathf.Clamp(temperatureLevel + (airLevel - 0.5f) * tempSpeed * Time.deltaTime, 0, 1);
+        airLevel += airSpeed * Time.deltaTime * (treeLevel - industryLevel * cityImpact);
+        airLevel = Mathf.Clamp01(airLevel);
+        temperatureLevel += (airLevel - 0.5f) * tempSpeed * Time.deltaTime;
+        temperatureLevel = Mathf.Clamp01(temperatureLevel);
 
         //trees.fillAmount = treeLevel;
         //air.fillAmount = airLevel;
