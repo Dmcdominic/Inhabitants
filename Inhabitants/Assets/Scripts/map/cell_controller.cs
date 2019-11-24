@@ -106,6 +106,7 @@ public class cell_controller : MonoBehaviour
     public float tree_density(Vector2 pos, float radius)
     {
         float sum = 0.0f;
+        int total = 0;
         for(int i = 0; i < HEIGHT; i++)
         {
             for(int j = 0; j < WIDTH; j++)
@@ -113,10 +114,15 @@ public class cell_controller : MonoBehaviour
                 if(on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
                     sum += cells[i, j].state;
+                    total += 1;
                 }
             }
         }
-        return sum / (Mathf.PI * radius * radius);
+        if (total == 0) {
+            Debug.Log("total goes down to zero");
+            return 0;
+        }
+        return sum / total;
     }
     public void spread_trees(Vector2 pos, float radius, float delta) {
         float sum = 0.0f;
