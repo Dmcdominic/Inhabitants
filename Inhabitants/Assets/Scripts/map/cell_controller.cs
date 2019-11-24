@@ -118,7 +118,41 @@ public class cell_controller : MonoBehaviour
         }
         return sum / (Mathf.PI * radius * radius);
     }
+    public void spread_trees(Vector2 pos, float radius, float delta) {
+        float sum = 0.0f;
+        for (int i = 0; i < HEIGHT; i++)
+        {
+            for (int j = 0; j < WIDTH; j++)
+            {
+                if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
+                {
+                    sum += cells[i, j].state;
+                }
+            }
+        }
+        if (sum >= 0.3f) {
+            for (int i = 0; i < HEIGHT; i++)
+            {
+                for (int j = 0; j < WIDTH; j++)
+                {
+                    if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
+                    {
+                        if (cells[i, j].state < 0.3f && tree_density(cells[i, j].transform.position, 0.35f) < 0.5f)
+                        {
+                            cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
 
+
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+
+
+
+    }
     //Modifies the value of trees in a given area (clamped)
     public void growTrees(Vector2 pos, float radius, float delta)
     {

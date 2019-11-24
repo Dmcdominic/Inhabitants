@@ -18,6 +18,19 @@ public class Rainstorm : MonoBehaviour {
   // Update is called once per frame
   void Update() {
     cell_controller.instance.growTrees(transform.position, radius, delta * Time.deltaTime);
+    setRegionsRainFlag(true);
+  }
+
+  private void OnDestroy() {
+    setRegionsRainFlag(false);
+  }
+
+  private void setRegionsRainFlag(bool newFlagVal) {
+    foreach(region Region in region.allRegions) {
+      if (Vector2.Distance(Region.centerpoint, transform.position) <= radius) {
+        Region.gettingRainedOn = newFlagVal;
+      }
+    }
   }
 
 }

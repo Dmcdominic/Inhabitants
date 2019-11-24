@@ -5,11 +5,15 @@ using TMPro;
 
 public class region : MonoBehaviour {
 
+  // Static settings
+  private const float ecoRainGrowthMult = 2f;
+
   // Public fields
   public int area;
   public moving_units movingUnits;
 
   public player Owner = player.none;
+  public SpriteRenderer region_sr_override;
 
   // Public variables
   public int units {
@@ -26,6 +30,11 @@ public class region : MonoBehaviour {
     get { return policy_manager.policies[(int)Owner]; }
   }
 
+  [HideInInspector]
+  public bool gettingRainedOn = false;
+
+  public static List<region> allRegions = new List<region>();
+
   // Components
   public TextMeshPro unit_text;
   public city City;
@@ -40,11 +49,18 @@ public class region : MonoBehaviour {
 
   // Init
   private void Awake() {
-    ownerShade_sr = GetComponent<SpriteRenderer>();
-    spriteOutline = GetComponent<SpriteOutline>();
+    if (region_sr_override) {
+      ownerShade_sr = region_sr_override;
+    } else {
+      ownerShade_sr = GetComponent<SpriteRenderer>();
+    }
+    spriteOutline = ownerShade_sr.gameObject.GetComponent<SpriteOutline>();
+
     road_Hub = GetComponent<road_hub>();
     //spriteOutline.enabled = false;
     City.Region = this;
+
+    allRegions.Add(this);
   }
 
   // Start is called before the first frame update
@@ -102,7 +118,12 @@ public class region : MonoBehaviour {
     road_Hub.build_road(target);
   }
 
-  public void affect_some_nearby_trees(float radius = 0.9f, float delta = 0.5f) {
+  public void affect_some_nearby_trees(float radius = 0.9f, float delta = 0.5f, bool forced = false) {
+    if (forced) {
+      cell_controller.instance.growTrees(centerpoint, radius, delta);
+      return;
+    }
+    
     if (Policy == policy.eco) {
       cell_controller.instance.growTrees(centerpoint, radius, delta);
     } else if (Policy == policy.industry) {
@@ -124,7 +145,7 @@ public class region : MonoBehaviour {
         case policy.neutral:
           return current_rate * 1.2f;
         case policy.eco:
-          return current_rate * 1f;
+          return current_rate * (gettingRainedOn ? ecoRainGrowthMult : 1f);
         default:
           return current_rate;
       }

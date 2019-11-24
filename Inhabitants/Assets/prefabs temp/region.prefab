@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2040293797
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102,6 +102,8 @@ MonoBehaviour:
   movingUnits: {fileID: 5922790110023561549, guid: 87166af8c3d53644ea1c39c2d17600e0,
     type: 3}
   Owner: 0
+  region_sr_override: {fileID: 0}
+  gettingRainedOn: 0
   unit_text: {fileID: 362702776507753169}
   City: {fileID: 8376527504118341490}
   spriteOutline: {fileID: 0}
@@ -201,14 +203,14 @@ RectTransform:
   m_GameObject: {fileID: 362702776507753171}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 5226147070064761200}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2.4}
+  m_AnchoredPosition: {x: 0, y: -2.1}
   m_SizeDelta: {x: 30, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &362702776507753180
@@ -442,7 +444,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2040293797
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 3
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -550,7 +552,7 @@ Transform:
   m_GameObject: {fileID: 8033249133949882385}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children:
   - {fileID: 362702776507753168}
   m_Father: {fileID: 362702775240425647}
@@ -620,7 +622,7 @@ MonoBehaviour:
   sr: {fileID: 1607415590457174454}
   industrySprite: {fileID: 21300000, guid: 3e9ac0a8c9c1cfa4f9b206ca974314ec, type: 3}
   neutralSprite: {fileID: 21300000, guid: 3d2809f513d3edd4bb22c1281b1e3174, type: 3}
-  ecoSprite: {fileID: 21300000, guid: 87c099c84ee1fb446b269a36b5acbce7, type: 3}
+  ecoSprite: {fileID: 21300000, guid: 2859b5d487fbebf42afb366cbacb6dcb, type: 3}
   untakenSprite: {fileID: 21300000, guid: e84227ed7198ced4e8d198e36da0c835, type: 3}
   Region: {fileID: 0}
   Policy: 0

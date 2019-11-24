@@ -97,6 +97,13 @@ public class moving_units : MonoBehaviour {
 
       //if no, check if the target region has more or less units
       if (target_region.units < adjustedUnits) {
+        // Trigger sound effect
+        if (target_region.Owner == player.none) {
+          mixer.playSFX("neutral region");
+        } else {
+          mixer.playSFX("enemy region");
+        }
+        // Update ownership and unit count
         target_region.road_Hub.destroy_road();
         target_region.Owner = start_owner;
         target_region.affect_some_nearby_trees();
