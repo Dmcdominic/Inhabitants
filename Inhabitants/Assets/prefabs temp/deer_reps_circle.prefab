@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7940801581209603875}
   - component: {fileID: 7669621144601595157}
   - component: {fileID: 6353541718303256182}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: deer_reps_circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

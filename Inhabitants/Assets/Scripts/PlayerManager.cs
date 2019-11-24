@@ -10,9 +10,9 @@ public enum gamestate { start_to_join, playing, winscreen, empires_falling };
 public class PlayerManager : MonoBehaviour {
   // Static settings
 #if UNITY_EDITOR
-  public const float human_playtime = 60f;
+  public const float human_playtime = 120f;
 #else
-  public const float human_playtime = 300f;
+  public const float human_playtime = 420f;
 #endif
   public const float winscreen_time = 8f;
 
@@ -97,6 +97,9 @@ public class PlayerManager : MonoBehaviour {
           break;
         }
       }
+
+      pA_elim = pA_elim && !moving_units.pA_has_units;
+      pB_elim = pB_elim && !moving_units.pB_has_units;
       if (pA_elim || pB_elim) {
         // Pull up win-screen
         Gamestate = gamestate.winscreen;
@@ -107,6 +110,9 @@ public class PlayerManager : MonoBehaviour {
         timer = winscreen_time;
         return;
       }
+
+      moving_units.pA_has_units = false;
+      moving_units.pB_has_units = false;
 
       // Otherwise, iterate the timer
       timer -= Time.deltaTime;
