@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1602488498474688565}
   - component: {fileID: 1602488498474688564}
   - component: {fileID: 1602488498474688555}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wolfcircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,8 +71,8 @@ SpriteRenderer:
   m_SortingLayerID: -240041571
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.5283019, g: 0.48344606, b: 0.48344606, a: 0.49411765}
+  m_Sprite: {fileID: 21300000, guid: 132a337272ae5b84e92e3d52374739b6, type: 3}
+  m_Color: {r: 0.68529725, g: 0.8301887, b: 0.819456, a: 0.32156864}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

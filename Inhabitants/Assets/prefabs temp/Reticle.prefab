@@ -390,6 +390,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2312616099192588904}
     m_Modifications:
+    - target: {fileID: 4082848024368567525, guid: 9d050498255475f4c8788b3ec17e186e,
+        type: 3}
+      propertyPath: dummy_reticle_quake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7588936330937400166, guid: 9d050498255475f4c8788b3ec17e186e,
         type: 3}
       propertyPath: m_Name
@@ -399,6 +404,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7588936330937400166, guid: 9d050498255475f4c8788b3ec17e186e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7095593620598741559, guid: 9d050498255475f4c8788b3ec17e186e,
         type: 3}
@@ -454,11 +464,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4082848024368567525, guid: 9d050498255475f4c8788b3ec17e186e,
-        type: 3}
-      propertyPath: dummy_reticle_quake
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d050498255475f4c8788b3ec17e186e, type: 3}

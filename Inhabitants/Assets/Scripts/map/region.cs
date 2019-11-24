@@ -7,6 +7,7 @@ public class region : MonoBehaviour {
 
   // Static settings
   private const float ecoRainGrowthMult = 2f;
+  public const int base_units = 10;
 
   // Public fields
   public int area;
@@ -71,6 +72,14 @@ public class region : MonoBehaviour {
   // Update is called once per frame
   void Update() {
     units_real += growth_rate * Time.deltaTime;
+    if (units_real <= 0) {
+      if (PlayerManager.Gamestate == gamestate.empires_falling) {
+        Owner = player.none;
+        units_real = 10;
+      } else {
+        units_real = 0;
+      }
+    }
     unit_text.text = units.ToString();
     unit_text.color = player_data.colors[(int)Owner];
     spriteOutline.color = player_data.colors[(int)Owner];
@@ -139,15 +148,17 @@ public class region : MonoBehaviour {
       }
       float current_rate = Mathf.Sqrt(units_real) / 12f + 0.2f;
 
+      float GS_mod = (PlayerManager.Gamestate == gamestate.empires_falling) ? -10f : 1f;
+
       switch (Policy) {
         case policy.industry:
-          return current_rate * 1.2f;
+          return current_rate * 1.2f * GS_mod;
         case policy.neutral:
-          return current_rate * 1.2f;
+          return current_rate * 1.2f * GS_mod;
         case policy.eco:
-          return current_rate * (gettingRainedOn ? ecoRainGrowthMult : 1f);
+          return current_rate * (gettingRainedOn ? ecoRainGrowthMult : 1f) * GS_mod;
         default:
-          return current_rate;
+          return current_rate * GS_mod;
       }
     }
   }

@@ -174,14 +174,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicPlayer: {fileID: 8518114234129159546}
   introClip: {fileID: 8300000, guid: b2b623e9958e74999ae30831a0e462c4, type: 3}
-  eco1Clip: {fileID: 8300000, guid: de2b93dfe09b84f51910bce4053e0925, type: 3}
-  eco2Clip: {fileID: 0}
-  eco3Clip: {fileID: 0}
-  neuEcoClip: {fileID: 0}
-  neuIndClip: {fileID: 0}
-  ind1Clip: {fileID: 0}
-  ind2Clip: {fileID: 0}
-  ind3Clip: {fileID: 0}
+  eco1Clip: {fileID: 8300000, guid: 41f2c9530cd8e4703a90001bd723f946, type: 3}
+  eco2Clip: {fileID: 8300000, guid: 4078c1a8e74ba41c3a3d309de92852cf, type: 3}
+  eco3Clip: {fileID: 8300000, guid: 5bf6b283e7ccc4735899515c979431c3, type: 3}
+  neuEcoClip: {fileID: 8300000, guid: c75f016852d464762aad1c54711426f9, type: 3}
+  neuIndClip: {fileID: 8300000, guid: a84c62f5da27e4a0196b1442e3d91dca, type: 3}
+  ind1Clip: {fileID: 8300000, guid: 84b9b86ba88ad40eba7f4686dbf08578, type: 3}
+  ind2Clip: {fileID: 8300000, guid: fec5873bcc0664bce843fb2f64a1aa00, type: 3}
+  ind3Clip: {fileID: 8300000, guid: c8b669d9f6b7f4cd58f527e0f1786117, type: 3}
   eco1Cutoff: 0.15
   eco2Cutoff: 0.3
   eco3Cutoff: 0.45
