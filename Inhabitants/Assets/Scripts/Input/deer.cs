@@ -12,6 +12,9 @@ public class deer : MonoBehaviour {
   public float radius = 1f;
   private List<deer_reps> deer_r = new List<deer_reps>();
 
+  private float tree_d;
+
+
   // Start is called before the first frame update
   void Start() {
     cc = GetComponent<CircleCollider2D>();
@@ -41,7 +44,10 @@ public class deer : MonoBehaviour {
 
     // Adjust colony size based on tree density
     float deer_d = colony_num / max_colony_num;
-    float tree_d = cell_controller.instance.tree_density(transform.position, radius);
+    // TODO - figure out how to normalize this. /20f is a fudge number...
+    if (tree_d == 0 || Random.Range(0, 3) == 0) {
+      tree_d = cell_controller.instance.tree_density(transform.position, radius) / 17f;
+    }
     //Debug.Log("tree_d: " + tree_d);
     //Debug.Log($"deer_d: {deer_d}");
     colony_num += (tree_d - deer_d) * colony_decrease_rate;

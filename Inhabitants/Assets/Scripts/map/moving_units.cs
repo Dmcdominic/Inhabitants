@@ -24,6 +24,7 @@ public class moving_units : MonoBehaviour {
 
   // Private vars
   private int single_unit_sr_total = 1;
+  private bool dummy_units = false;
 
   // Getters
   public policy Policy {
@@ -51,6 +52,10 @@ public class moving_units : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+    if (PlayerManager.Gamestate == gamestate.empires_falling) {
+      dummy_units = true;
+    }
+
     float ds = Time.deltaTime * movespeed;
 
     units_num.text = units.ToString();
@@ -80,6 +85,11 @@ public class moving_units : MonoBehaviour {
     if (dist > ds && dist > arrival_radius) {
       Vector2 direction = target_region.centerpoint - (Vector2)transform.position;
       transform.Translate(direction.normalized * ds);
+      return;
+    }
+
+    if (dummy_units) {
+      Destroy(gameObject);
       return;
     }
 
@@ -117,7 +127,7 @@ public class moving_units : MonoBehaviour {
       }
     }
 
-    Destroy(this.gameObject);
+    Destroy(gameObject);
   }
 
   // Add an additional unit sprite (strictly visual)

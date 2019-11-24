@@ -68,15 +68,22 @@ public class earth_reticle : MonoBehaviour {
             {
                 if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2)
                 {
-                    Instantiate(Deer, transform.position, Quaternion.identity);
+                    // TODO - remove (temporary)
+                    int deer_total = FindObjectsOfType<deer>().Length;
+                    if (deer_total < 3) {
+                      Instantiate(Deer, transform.position, Quaternion.identity);
+                    }
                 }
             }
 
             if (RCI.GetButtonDown(XboxButton.B, Reticle.controller))
             {
-                if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2)
-                {
-                    Instantiate(Wolf, transform.position, Quaternion.identity);
+                if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2) {
+                    // TODO - remove (temporary)
+          int wolf_total = FindObjectsOfType<wolf>().Length;
+          if (wolf_total < 3) {
+            Instantiate(Wolf, transform.position, Quaternion.identity);
+          }
                 }
             }
         }
