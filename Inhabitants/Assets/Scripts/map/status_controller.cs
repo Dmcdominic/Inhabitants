@@ -63,7 +63,7 @@ public class status_controller : MonoBehaviour
         //trees.fillAmount = treeLevel;
         //air.fillAmount = airLevel;
         //temperature.fillAmount = temperatureLevel;
-        temperature.fillAmount = (temperatureLevel * (1f - thermometer_min_fill)) + thermometer_min_fill;
+        temperature.fillAmount = ((1f - temperatureLevel) * (1f - thermometer_min_fill)) + thermometer_min_fill;
 
     //Checks for a disaster once every second
     //Disasters are more likely when the temperature level is low

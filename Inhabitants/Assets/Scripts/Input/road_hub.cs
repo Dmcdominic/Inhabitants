@@ -8,9 +8,9 @@ public class road_hub : MonoBehaviour {
   public LineRenderer road_renderer;
 
   // Static settings
-  private static int midpt_count = 8;
-  //private static float visual_pulse_freq = 0.5f;
-  //private static float pulse_margin = 0.12f;
+  private const int midpt_count = 8;
+  /* private const float visual_pulse_freq = 0.5f;
+  private const float pulse_margin = 0.12f;*/
   private static Vector2 midpt_offset = new Vector2(0, -0.12f);
 
   private static float tree_destruction_radius = 0.1f;
@@ -51,12 +51,13 @@ public class road_hub : MonoBehaviour {
     units_cap = source.units;
 
     // Animate the road renderer
-    /*float t = ((Time.time * visual_pulse_freq) % 1) * (1f - 2f*pulse_margin) + pulse_margin;
+    /*
+    float t = ((Time.time * visual_pulse_freq) % 1) * (1f - 2f*pulse_margin) + pulse_margin;
 
     Keyframe zero = road_renderer.widthCurve.keys[0];
     Keyframe last = road_renderer.widthCurve.keys[road_renderer.widthCurve.keys.Length - 1];
     Keyframe mid0 = new Keyframe(Mathf.Clamp01(t - pulse_margin), zero.value);
-    Keyframe mid1 = new Keyframe(t, 1f);
+    Keyframe mid1 = new Keyframe(t, 2f);
     Keyframe mid2 = new Keyframe(Mathf.Clamp01(t + pulse_margin), last.value);
 
     AnimationCurve widthCurve = new AnimationCurve();

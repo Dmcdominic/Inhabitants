@@ -22,6 +22,11 @@ public class moving_units : MonoBehaviour {
   public TextMeshPro units_num;
   public SpriteRenderer single_sr;
 
+  // Static vars
+  // TODO - bool to check if each player has any units
+  public static bool pA_has_units;
+  public static bool pB_has_units;
+
   // Private vars
   private int single_unit_sr_total = 1;
   private bool dummy_units = false;
@@ -47,6 +52,13 @@ public class moving_units : MonoBehaviour {
     while (units > threshold * threshold * threshold) {
       addSingleUnitSR();
       threshold += 1;
+    }
+
+    // Set the has_units bool
+    if (start_owner == player.A) {
+      pA_has_units = true;
+    } else if (start_owner == player.B) {
+      pB_has_units = true;
     }
   }
 
@@ -128,6 +140,15 @@ public class moving_units : MonoBehaviour {
     }
 
     Destroy(gameObject);
+  }
+
+  // Called once per frame, after update()
+  private void LateUpdate() {
+    if (start_owner == player.A) {
+      pA_has_units = true;
+    } else if (start_owner == player.B) {
+      pB_has_units = true;
+    }
   }
 
   // Add an additional unit sprite (strictly visual)

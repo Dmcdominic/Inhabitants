@@ -10380,7 +10380,7 @@ GameObject:
   - component: {fileID: 584984219}
   - component: {fileID: 584984220}
   - component: {fileID: 584984221}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: region 16 sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24249,7 +24249,7 @@ GameObject:
   - component: {fileID: 1705521322}
   - component: {fileID: 1705521323}
   - component: {fileID: 1705521324}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: region 14 sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

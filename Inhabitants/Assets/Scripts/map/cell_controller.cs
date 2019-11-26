@@ -105,13 +105,18 @@ public class cell_controller : MonoBehaviour
     //Computes tree density in a given area
     public float tree_density(Vector2 pos, float radius)
     {
+        int minCol = Mathf.Max(0, (int)Mathf.Floor((pos.x - 0.3f - radius) / CELL_WIDTH + WIDTH / 2.0f));
+        int maxCol = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.x + 0.3f + radius) / CELL_WIDTH + WIDTH / 2.0f));
+        int minRow = Mathf.Max(0, (int)Mathf.Floor((pos.y - 0.3f - radius) / CELL_HEIGHT + HEIGHT / 2.0f));
+        int maxRow = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.y + 0.3f + radius) / CELL_HEIGHT + HEIGHT / 2.0f));
         float sum = 0.0f;
         int total = 0;
-        for(int i = 0; i < HEIGHT; i++)
+       
+        for (int i = minRow; i < maxRow; i++)
         {
-            for(int j = 0; j < WIDTH; j++)
+            for (int j = minCol; j < maxCol; j++)
             {
-                if(on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
+                if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
                     sum += cells[i, j].state;
                     total += 1;
@@ -124,6 +129,7 @@ public class cell_controller : MonoBehaviour
         }
         return sum / total;
     }
+
     public void spread_trees(Vector2 pos, float radius, float delta) {
         float sum = 0.0f;
         for (int i = 0; i < HEIGHT; i++)
@@ -162,9 +168,13 @@ public class cell_controller : MonoBehaviour
     //Modifies the value of trees in a given area (clamped)
     public void growTrees(Vector2 pos, float radius, float delta)
     {
-        for (int i = 0; i < HEIGHT; i++)
+        int minCol = Mathf.Max(0, (int)Mathf.Floor((pos.x - 0.3f - radius) / CELL_WIDTH + WIDTH / 2.0f));
+        int maxCol = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.x + 0.3f + radius) / CELL_WIDTH + WIDTH / 2.0f));
+        int minRow = Mathf.Max(0, (int)Mathf.Floor((pos.y - 0.3f - radius) / CELL_HEIGHT + HEIGHT / 2.0f));
+        int maxRow = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.y + 0.3f + radius) / CELL_HEIGHT + HEIGHT / 2.0f));
+        for (int i = minRow; i < maxRow; i++)
         {
-            for (int j = 0; j < WIDTH; j++)
+            for (int j = minCol; j < maxCol; j++)
             {
                 if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius) {
           cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
