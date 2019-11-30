@@ -30,6 +30,8 @@ public class policy_manager : MonoBehaviour {
         newPolicy = (policy)Mathf.Clamp(currentPolicy + 1, 1, policiesCount - 1);
       }
 
+      ChangePolicyBonusDisplay(i, currentPolicy, newPolicy);
+
       if (newPolicy != policies[Player]) {
         policies[Player] = newPolicy;
         //city.updatePoliciesAll(Player, (policy)newPolicy);
@@ -62,5 +64,11 @@ public class policy_manager : MonoBehaviour {
     } else {
       sr.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     }
+  }
+  
+  // Activates a new bonus display and deactivates the previous one
+  private void ChangePolicyBonusDisplay(int playerNum, int oldPolicy, policy newPolicy) {
+    transform.GetChild(playerNum).GetChild(Mathf.Abs((int) oldPolicy - 4)).GetChild(0).gameObject.SetActive(false);
+    transform.GetChild(playerNum).GetChild(Mathf.Abs((int) newPolicy - 4)).GetChild(0).gameObject.SetActive(true);
   }
 }
