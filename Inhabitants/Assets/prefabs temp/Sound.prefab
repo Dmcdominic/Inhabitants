@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8518114234129159545}
   - component: {fileID: 8518114234129159546}
-  - component: {fileID: 8518114234129159547}
+  - component: {fileID: 314808284728051813}
   m_Layer: 0
   m_Name: Music
   m_TagString: Untagged
@@ -160,7 +160,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8518114234129159547
+--- !u!114 &314808284728051813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,12 +182,11 @@ MonoBehaviour:
   ind1Clip: {fileID: 8300000, guid: 84b9b86ba88ad40eba7f4686dbf08578, type: 3}
   ind2Clip: {fileID: 8300000, guid: fec5873bcc0664bce843fb2f64a1aa00, type: 3}
   ind3Clip: {fileID: 8300000, guid: c8b669d9f6b7f4cd58f527e0f1786117, type: 3}
-  eco1Cutoff: 0.15
-  eco2Cutoff: 0.3
-  eco3Cutoff: 0.45
-  ind1Cutoff: 0.55
-  ind2Cutoff: 0.7
-  ind3Cutoff: 0.85
+  ecoVictory: {fileID: 8300000, guid: 4f16a29b9aa0d469087c49c30734ccb7, type: 3}
+  indVictory: {fileID: 8300000, guid: 6ab39ec3234af46f380ad66e2fb8de9b, type: 3}
+  tie: {fileID: 8300000, guid: d4aecfcc2af75426ea3ef154ae0cd248, type: 3}
+  ecoCutoff: 0.45
+  indCutoff: 0.55
   industryLevel: 0
 --- !u!1 &8518114234521765618
 GameObject:

@@ -5,20 +5,16 @@ using UnityEngine;
 public class mixer : MonoBehaviour
 {
     public AudioSource musicPlayer;
-    public AudioClip introClip;
-    public AudioClip eco1Clip, eco2Clip, eco3Clip;
-	public AudioClip neuEcoClip, neuIndClip;
-	public AudioClip ind1Clip, ind2Clip, ind3Clip;
+    public AudioClip introClip, eco1Clip, eco2Clip, eco3Clip, neuEcoClip, neuIndClip,
+        ind1Clip, ind2Clip, ind3Clip, ecoVictory, indVictory, tie;
 	public static AudioSource fxSource;
-    public float eco1Cutoff = 0.15f;
-    public float eco2Cutoff = 0.30f;
-    public float eco3Cutoff = 0.45f;
-    public float ind1Cutoff = 0.55f;
-    public float ind2Cutoff = 0.70f;
-    public float ind3Cutoff = 0.85f;
+    public float ecoCutoff = 0.45f;
+    public float indCutoff = 0.55f;
     public float industryLevel = 0f;
-    private bool indPlayed = false;
-    private bool gameStarted = false;
+	public static gamestate gS;
+	public static winstate wS;
+    public bool indPlayed = false;
+	public bool gameEnded = true;
 
     public static void playSFX(string sfx)
     {
@@ -71,9 +67,9 @@ public class mixer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        musicPlayer.clip = introClip;
-        musicPlayer.Play();
-    }
+		musicPlayer.clip = introClip;
+		musicPlayer.Play();
+	}
 
     // Update is called once per frame
     void Update()
@@ -81,48 +77,79 @@ public class mixer : MonoBehaviour
         // Update the current industry value
         industryLevel = status_controller.industryLevel;
 
-        if (!musicPlayer.isPlaying)
-        {
-            if (industryLevel < eco1Cutoff)
+        // Update the current game state / win state
+        // start_to_join, playing, winscreen / empires_falling (eco, ind, tie)
+		gS = PlayerManager.Gamestate;
+		wS = PlayerManager.Winstate;
+
+        // Play Victory Music (Once)
+        if (gameEnded && (gS == gamestate.winscreen || gS == gamestate.empires_falling))
+		{
+            switch (wS)
             {
-                musicPlayer.clip = eco1Clip;
-				indPlayed = false;
+                case winstate.eco:
+                    musicPlayer.Stop();
+                    musicPlayer.clip = ecoVictory;
+                    musicPlayer.Play();
+                    break;
+                case winstate.ind:
+                    musicPlayer.Stop();
+                    musicPlayer.clip = indVictory;
+                    musicPlayer.Play();
+                    break;
+                case winstate.tie:
+                    musicPlayer.Stop();
+                    musicPlayer.clip = tie;
+                    musicPlayer.Play();
+                    break;
+                default:
+                    //musicPlayer.Stop();
+                    //musicPlayer.clip = ecoVictory;
+                    //musicPlayer.Play();
+                    Debug.LogError("Game has not ended");
+                    break;
             }
-			else if (eco1Cutoff <= industryLevel && industryLevel < eco2Cutoff)
+
+            gameEnded = false;
+		}
+
+        // Play Intro (Start Screen) Music
+        if (!musicPlayer.isPlaying && gS == gamestate.start_to_join)
+        {
+            Start();
+            gameEnded = true;
+        }
+
+        // Play regular music
+        if (!musicPlayer.isPlaying && gS == gamestate.playing)
+        {
+			if (industryLevel < ecoCutoff)
 			{
-				musicPlayer.clip = eco2Clip;
+				float eco_r = Random.Range(0.0f, 3.0f);
+				if (eco_r < 1.0f) musicPlayer.clip = eco1Clip;
+				else if (eco_r < 2.0f) musicPlayer.clip = eco2Clip;
+				else musicPlayer.clip = eco3Clip;
 				indPlayed = false;
 			}
-			else if (eco2Cutoff <= industryLevel && industryLevel < eco3Cutoff)
-			{
-				musicPlayer.clip = eco3Clip;
-				indPlayed = false;
-			}
-			else if (eco3Cutoff <= industryLevel && industryLevel < ind1Cutoff)
+			else if (industryLevel < indCutoff)
 			{
 				if (!indPlayed)
 				{
 					musicPlayer.clip = neuEcoClip;
 					indPlayed = true;
 				}
-				else {
+				else
+				{
 					musicPlayer.clip = neuIndClip;
 					indPlayed = false;
-                }
+				}
 			}
-			else if (ind1Cutoff <= industryLevel && industryLevel < ind2Cutoff)
+			else
 			{
-				musicPlayer.clip = ind1Clip;
-				indPlayed = true;
-			}
-			else if (ind2Cutoff <= industryLevel && industryLevel < ind3Cutoff)
-			{
-				musicPlayer.clip = ind2Clip;
-				indPlayed = true;
-			}
-			else if (ind3Cutoff <= industryLevel)
-            {
-                musicPlayer.clip = ind3Clip;
+				float ind_r = Random.Range(0.0f, 3.0f);
+				if (ind_r < 1.0f) musicPlayer.clip = ind1Clip;
+				else if (ind_r < 2.0f) musicPlayer.clip = ind2Clip;
+				else musicPlayer.clip = ind3Clip;
 				indPlayed = true;
 			}
             musicPlayer.Play();

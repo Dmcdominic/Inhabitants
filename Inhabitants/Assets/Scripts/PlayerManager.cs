@@ -6,6 +6,7 @@ using XboxCtrlrInput;
 using ReticleControlInput;
 
 public enum gamestate { start_to_join, playing, winscreen, empires_falling };
+public enum winstate { none, eco, ind, tie };
 
 public class PlayerManager : MonoBehaviour {
   // Static settings
@@ -30,6 +31,7 @@ public class PlayerManager : MonoBehaviour {
   public TextMeshProUGUI empires_fall_TMP;
 
   public static gamestate Gamestate;
+    public static winstate Winstate;
 
   // Private vars
   private float timer = human_playtime;
@@ -43,6 +45,7 @@ public class PlayerManager : MonoBehaviour {
   // Initialize timer and human players game status
   private void init() {
     Gamestate = gamestate.start_to_join;
+	Winstate = winstate.none;
     p1Reticle.SetActive(false);
     p2Reticle.SetActive(false);
     p1JoinText.SetActive(true);
@@ -105,6 +108,10 @@ public class PlayerManager : MonoBehaviour {
         Gamestate = gamestate.winscreen;
         timer_TMP.gameObject.SetActive(false);
         winner_TMP.gameObject.SetActive(true);
+		if (pA_elim ? (policy_manager.policies[(int)player.B] == policy.industry)
+					: (policy_manager.policies[(int)player.A] == policy.industry))
+			Winstate = winstate.ind;
+		else Winstate = winstate.eco;
         string empire_won = pA_elim ? "Blue" : "Red";
         winner_TMP.text = "The " + empire_won + "  Empire  is  victorious";
         timer = winscreen_time;
@@ -121,6 +128,7 @@ public class PlayerManager : MonoBehaviour {
       } else {
         // Pull up tie screen
         Gamestate = gamestate.winscreen;
+		Winstate = winstate.tie;
         timer_TMP.gameObject.SetActive(false);
         winner_TMP.gameObject.SetActive(true);
         winner_TMP.text = "Both empires live on...";
