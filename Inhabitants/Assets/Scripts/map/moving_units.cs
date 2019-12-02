@@ -13,6 +13,8 @@ public class moving_units : MonoBehaviour {
   private const float tree_effect_radius = 0.35f;
   private const float tree_destr_delta = -0.35f, tree_grow_delta = 0.4f;
 
+  private const float ind_ms_and_size_mult = 1.1f;
+
   // Components
   public region target_region;
   public player start_owner;
@@ -28,6 +30,7 @@ public class moving_units : MonoBehaviour {
   public static bool pB_has_units;
 
   // Private vars
+  private Vector3 init_local_scale;
   private int single_unit_sr_total = 1;
   private bool dummy_units = false;
 
@@ -60,6 +63,8 @@ public class moving_units : MonoBehaviour {
     } else if (start_owner == player.B) {
       pB_has_units = true;
     }
+
+    init_local_scale = transform.localScale;
   }
 
   // Update is called once per frame
@@ -75,10 +80,18 @@ public class moving_units : MonoBehaviour {
 
     //checks if the # of units moving has gone down to zero. Terminate if so.
     if (units <= 0) {
-      Destroy(this.gameObject);
+      Destroy(gameObject);
       return;
     }
 
+    // Industry units are slightly faster and larger
+    if (Policy == policy.industry) {
+      ds *= ind_ms_and_size_mult * ind_ms_and_size_mult;
+      transform.localScale = init_local_scale * ind_ms_and_size_mult;
+    } else {
+      transform.localScale = init_local_scale;
+    }
+    
     // Small odds to affect nearby trees
     for (int i=0; i < single_unit_sr_total*single_unit_sr_total; i++) {
       float randFloat = Random.Range(0, 1f);

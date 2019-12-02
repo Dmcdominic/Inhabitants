@@ -8,15 +8,31 @@ public class Rainstorm : MonoBehaviour {
   public float delta = 50f;
   public float radius = 1f;
 
+  // Private vars
+  private squish Squish;
+  private float t = 0f;
+  private bool ended = false;
+
 
   // Start is called before the first frame update
   void Start() {
+    Squish = GetComponent<squish>();
     mixer.playSFX("rain");
-    Destroy(gameObject, rainstorm_time);
   }
 
   // Update is called once per frame
   void Update() {
+    if (ended) {
+      return;
+    }
+
+    t += Time.deltaTime;
+    if (t > rainstorm_time) {
+      Squish.destroy_after_squish_down = true;
+      Squish.squish_down();
+      ended = true;
+    }
+
     cell_controller.instance.growTrees(transform.position, radius, delta * Time.deltaTime);
     setRegionsRainFlag(true);
   }

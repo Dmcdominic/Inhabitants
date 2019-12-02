@@ -115,7 +115,7 @@ public class reticle : MonoBehaviour {
       // TODO - Highlight active region here
       //transform.position = active_region.centerpoint;
       if (rightStickAim.magnitude != 0) {
-        aimed_at_region = raycast_to_region(active_region.centerpoint, rightStickAim, active_region.gameObject);
+        aimed_at_region = raycast_to_region(active_region.raycast_centerpoint, rightStickAim, active_region.gameObject);
       } else {
         aimed_at_region = null;
       }

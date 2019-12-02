@@ -39,6 +39,7 @@ public class region : MonoBehaviour {
   // Components
   public TextMeshPro unit_text;
   public city City;
+  public GameObject raycast_orig_override;
 
   // Hidden components
   private SpriteRenderer ownerShade_sr;
@@ -167,6 +168,13 @@ public class region : MonoBehaviour {
   public Vector2 centerpoint {
     get {
       return City.transform.position;
+    }
+  }
+
+  // The point on the region from which raycasts should originate
+  public Vector2 raycast_centerpoint {
+    get {
+      return (raycast_orig_override != null) ? raycast_orig_override.transform.position : City.transform.position;
     }
   }
 }
