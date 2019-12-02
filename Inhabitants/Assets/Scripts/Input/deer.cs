@@ -39,14 +39,14 @@ public class deer : MonoBehaviour {
     float wolf_kill_rate = 10f * Time.deltaTime;
 
     // Spread trees within the radius
-    //cell_controller.instance.growTrees(transform.position, radius, tree_decrease_rate);
+    cell_controller.instance.growTrees(transform.position, radius, tree_decrease_rate);
     cell_controller.instance.spread_trees(transform.position, radius, tree_spread_rate);
 
     // Adjust colony size based on tree density
     float deer_d = colony_num / max_colony_num;
-    // TODO - figure out how to normalize this. /20f is a fudge number...
+    
     if (tree_d == 0 || Random.Range(0, 3) == 0) {
-      tree_d = cell_controller.instance.tree_density(transform.position, radius) / 17f;
+      tree_d = cell_controller.instance.tree_density(transform.position, radius);
     }
     //Debug.Log("tree_d: " + tree_d);
     //Debug.Log($"deer_d: {deer_d}");

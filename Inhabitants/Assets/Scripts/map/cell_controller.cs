@@ -110,6 +110,8 @@ public class cell_controller : MonoBehaviour
         int minRow = Mathf.Max(0, (int)Mathf.Floor((pos.y - 0.3f - radius) / CELL_HEIGHT + HEIGHT / 2.0f));
         int maxRow = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.y + 0.3f + radius) / CELL_HEIGHT + HEIGHT / 2.0f));
         float sum = 0.0f;
+        int total = 0;
+       
         for (int i = minRow; i < maxRow; i++)
         {
             for (int j = minCol; j < maxCol; j++)
@@ -117,10 +119,15 @@ public class cell_controller : MonoBehaviour
                 if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
                     sum += cells[i, j].state;
+                    total += 1;
                 }
             }
         }
-        return sum / (Mathf.PI * radius * radius);
+        if (total == 0) {
+            Debug.Log("total goes down to zero");
+            return 0;
+        }
+        return sum / total;
     }
 
     public void spread_trees(Vector2 pos, float radius, float delta) {
