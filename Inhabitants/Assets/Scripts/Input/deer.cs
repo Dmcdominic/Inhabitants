@@ -10,6 +10,7 @@ public class deer : MonoBehaviour {
   public float tree_effect = 1f;
   private CircleCollider2D cc;
   public float radius = 1f;
+  public float deer_time = 8.0f;
   private List<deer_reps> deer_r = new List<deer_reps>();
 
   private float tree_d;
@@ -33,9 +34,9 @@ public class deer : MonoBehaviour {
   // Update is called once per frame
   void Update() {
     //parameters
-    float tree_decrease_rate = -Time.deltaTime * colony_num * 0.001f;
-    float tree_spread_rate = Time.deltaTime * colony_num;
-    float colony_decrease_rate = 10f * Time.deltaTime;
+    float tree_decrease_rate = -Time.deltaTime * colony_num * 0.01f;
+    float tree_spread_rate = Time.deltaTime * colony_num * 0.007f;
+    float colony_decrease_rate = 10f * Time.deltaTime; 
     float wolf_kill_rate = 10f * Time.deltaTime;
 
     // Spread trees within the radius

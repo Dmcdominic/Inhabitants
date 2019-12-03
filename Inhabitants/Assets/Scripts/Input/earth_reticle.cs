@@ -23,6 +23,7 @@ public class earth_reticle : MonoBehaviour {
 
     // Private vars
     private float next_rainstorm = 0.0f;
+    private float next_deer = 0.0f;
 
 
     // Init
@@ -51,7 +52,7 @@ public class earth_reticle : MonoBehaviour {
             {
                 if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2)
                 {
-                    //next_rainstorm = Time.time + rainstorm_rate;
+                    
                     next_rainstorm = Time.time + rainstorm.rainstorm_time;
                     Instantiate(rainstorm, transform.position, Quaternion.identity);
                 }
@@ -64,10 +65,11 @@ public class earth_reticle : MonoBehaviour {
             }
 
             // Animal-placing (deer) logic:
-            if (RCI.GetButtonDown(XboxButton.Y, Reticle.controller))
+            if (RCI.GetButtonDown(XboxButton.Y, Reticle.controller)&& Time.time > next_deer)
             {
                 if (Physics2D.RaycastAll(transform.position, Vector2.zero).Length >= 2)
                 {
+                    next_deer = Time.time + Deer.deer_time;
                     // TODO - remove (temporary)
                     int deer_total = FindObjectsOfType<deer>().Length;
                     if (deer_total < 3) {

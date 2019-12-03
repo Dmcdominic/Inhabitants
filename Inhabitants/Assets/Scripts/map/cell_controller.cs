@@ -131,10 +131,14 @@ public class cell_controller : MonoBehaviour
     }
 
     public void spread_trees(Vector2 pos, float radius, float delta) {
+        int minCol = Mathf.Max(0, (int)Mathf.Floor((pos.x - 0.3f - radius) / CELL_WIDTH + WIDTH / 2.0f));
+        int maxCol = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.x + 0.3f + radius) / CELL_WIDTH + WIDTH / 2.0f));
+        int minRow = Mathf.Max(0, (int)Mathf.Floor((pos.y - 0.3f - radius) / CELL_HEIGHT + HEIGHT / 2.0f));
+        int maxRow = Mathf.Min(HEIGHT, (int)Mathf.Ceil((pos.y + 0.3f + radius) / CELL_HEIGHT + HEIGHT / 2.0f));
         float sum = 0.0f;
-        for (int i = 0; i < HEIGHT; i++)
+        for (int i = minRow; i < maxRow; i++)
         {
-            for (int j = 0; j < WIDTH; j++)
+            for (int j = minCol; j < maxCol; j++)
             {
                 if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
                 {
@@ -142,28 +146,38 @@ public class cell_controller : MonoBehaviour
                 }
             }
         }
-        if (sum >= 0.3f) {
-            for (int i = 0; i < HEIGHT; i++)
-            {
-                for (int j = 0; j < WIDTH; j++)
-                {
-                    if (on_map[i, j] && Vector2.Distance(cells[i, j].transform.position, pos) < radius)
-                    {
-                        if (cells[i, j].state < 0.3f && tree_density(cells[i, j].transform.position, 0.35f) < 0.5f)
-                        {
-                            cells[i, j].state = Mathf.Clamp01(cells[i, j].state + delta);
-
-
-                        }
-                        
-                    }
-                }
-            }
+        if (sum >= 1.0f) {
+            random_tree(pos, radius, 0);
         }
 
 
 
 
+    }
+    public void random_tree(Vector2 pos, float radius, int counter) {
+        if (counter > 100000) //to make sure this random growth doesn't recurse forever 
+        {
+            return;
+
+        }
+        else
+        {
+            Vector2 random_tree_centre = Random.insideUnitCircle * radius + pos;
+            if (tree_density(random_tree_centre, 0.01f) < 0.1f)
+            {
+                growTrees(random_tree_centre, 0.05f, 0.3f);
+                
+
+            }
+            else
+            {
+                random_tree(pos, radius, counter + 1);
+
+            }
+        }
+    
+    
+    
     }
     //Modifies the value of trees in a given area (clamped)
     public void growTrees(Vector2 pos, float radius, float delta)
