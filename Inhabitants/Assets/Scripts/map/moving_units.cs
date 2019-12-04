@@ -13,7 +13,7 @@ public class moving_units : MonoBehaviour {
   private const float tree_effect_radius = 0.35f;
   private const float tree_destr_delta = -0.35f, tree_grow_delta = 0.4f;
 
-  private const float ind_ms_and_size_mult = 1.1f;
+  private const float ind_ms_and_size_mult = 1.25f;
 
   // Components
   public region target_region;

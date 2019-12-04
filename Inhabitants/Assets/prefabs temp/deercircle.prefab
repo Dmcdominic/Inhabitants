@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8547144441851909440}
   - component: {fileID: 8547144441851909567}
   - component: {fileID: 8547144441851909566}
+  - component: {fileID: 7894739573405594459}
   m_Layer: 10
   m_Name: deercircle
   m_TagString: Untagged
@@ -96,9 +97,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deer_rep: {fileID: 6353541718303256182, guid: 25957d65cd51cca4e841ae5e2b9f1994,
     type: 3}
-  colony_num: 100
+  colony_num: 45
   tree_effect: 1
-  radius: 0.5
+  radius: 0.9
 --- !u!58 &8547144441851909566
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -115,3 +116,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!114 &7894739573405594459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8547144441851909565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5469623457b63498b64ff3eaea1186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fade_duration: 5
+  fade_on_start: 1

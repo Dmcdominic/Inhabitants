@@ -10498,15 +10498,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7c1d2174ce44f4f981beb68d893313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trees: {fileID: 0}
-  air: {fileID: 0}
   temperature: {fileID: 869347204}
-  airSpeed: 0.02
-  tempSpeed: 0.1
-  cityImpact: 0.005
+  airSpeed: 0.03
+  tempSpeed: 0.3
+  cityImpact: 1
   treeLevel: 0.5
   airLevel: 0.5
   temperatureLevel: 0.5
+  treeInfluence: 0
+  cityInfluence: 0
+  deltaAir: 0
+  deltaTemp: 0
 --- !u!4 &608837974
 Transform:
   m_ObjectHideFlags: 0
@@ -20659,6 +20661,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 925462033, guid: 11c17ae44e4e10f4ba409a0ebef3516e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364318236, guid: 11c17ae44e4e10f4ba409a0ebef3516e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501897651, guid: 11c17ae44e4e10f4ba409a0ebef3516e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11c17ae44e4e10f4ba409a0ebef3516e, type: 3}

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class disaster : MonoBehaviour {
+  private const int unit_impact = 25;
+
   private static bool disaster_queued = false;
 
   public GameObject disaster_indicator;
@@ -28,8 +30,12 @@ public class disaster : MonoBehaviour {
     cell_controller.instance.growTrees(pos, radius, -1);
     foreach (region Region in region.allRegions) {
       if (Vector2.Distance(pos, Region.centerpoint) <= radius) {
-        Region.units = 20;
-        Region.Owner = player.none;
+        if (Region.Owner != player.none && Region.units > unit_impact) {
+          Region.units -= unit_impact;
+        } else {
+          Region.units = Mathf.Max(unit_impact - 5, Region.units);
+          Region.Owner = player.none;
+        }
       }
     }
   }
