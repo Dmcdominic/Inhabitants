@@ -9,7 +9,7 @@ public class earth_reticle : MonoBehaviour {
   // Settings
   //private static float rainstorm_rate = 15.0f;
   private static float tree_growth_radius = 0.4f;
-  private static float tree_growth_rate = 0.9f;
+  private static float tree_growth_rate = 1.3f;
   private const float deer_cooldown = 10f;
   private const float wolf_cooldown = 10f;
 

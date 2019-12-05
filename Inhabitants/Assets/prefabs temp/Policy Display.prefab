@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 192297440}
   - component: {fileID: 192297441}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 426318847}
   - component: {fileID: 426318848}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 539167496}
   - component: {fileID: 539167497}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 925462033}
   - component: {fileID: 925462034}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 985263028}
   - component: {fileID: 985263029}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: multiple-users-silhouette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1083373634}
   - component: {fileID: 1083373635}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,7 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1364318236}
   - component: {fileID: 1364318237}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -575,7 +575,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1501897651}
   - component: {fileID: 1501897652}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,7 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1622778758}
   - component: {fileID: 1622778759}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: multiple-users-silhouette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -737,7 +737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1740872136}
   - component: {fileID: 1740872137}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -817,7 +817,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2041182596}
   - component: {fileID: 2041182597}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: multiple-users-silhouette
   m_TagString: Untagged
   m_Icon: {fileID: 0}

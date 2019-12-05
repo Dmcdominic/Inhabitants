@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: -1018854095
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cea2830c7fe97d841997056c44e081da, type: 3}
-  m_Color: {r: 1, g: 0.0047169924, b: 1, a: 0.627451}
+  m_Sprite: {fileID: 21300000, guid: 5f92c68793c2aab4ea3c7fb7789b935a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,6 +102,8 @@ MonoBehaviour:
   Owner: 1
   line_to_active_region: {fileID: 6686409363014656834}
   arrow_cap: {fileID: 5821970569041605881}
+  closed_cursor: {fileID: 21300000, guid: 5f92c68793c2aab4ea3c7fb7789b935a, type: 3}
+  open_cursor: {fileID: 21300000, guid: ff993597c3ed0964bb2d276bc9ec5f46, type: 3}
   controller: 1
 --- !u!114 &8896417138050966106
 MonoBehaviour:
@@ -390,11 +392,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2312616099192588904}
     m_Modifications:
-    - target: {fileID: 4082848024368567525, guid: 9d050498255475f4c8788b3ec17e186e,
-        type: 3}
-      propertyPath: dummy_reticle_quake
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7588936330937400166, guid: 9d050498255475f4c8788b3ec17e186e,
         type: 3}
       propertyPath: m_Name
@@ -464,6 +461,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4082848024368567525, guid: 9d050498255475f4c8788b3ec17e186e,
+        type: 3}
+      propertyPath: dummy_reticle_quake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d050498255475f4c8788b3ec17e186e, type: 3}

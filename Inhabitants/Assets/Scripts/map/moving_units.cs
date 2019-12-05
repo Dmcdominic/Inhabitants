@@ -25,7 +25,6 @@ public class moving_units : MonoBehaviour {
   public SpriteRenderer single_sr;
 
   // Static vars
-  // TODO - bool to check if each player has any units
   public static bool pA_has_units;
   public static bool pB_has_units;
 
@@ -33,6 +32,8 @@ public class moving_units : MonoBehaviour {
   private Vector3 init_local_scale;
   private int single_unit_sr_total = 1;
   private bool dummy_units = false;
+
+  private List<Animator> singleUnitAnims = new List<Animator>();
 
   // Getters
   public policy Policy {
@@ -42,7 +43,10 @@ public class moving_units : MonoBehaviour {
 
   // Start is called before the first frame update
   void Start() {
-    single_sr.GetComponent<Animator>().SetBool("blue", start_owner == player.B);
+    Animator newAnimator = single_sr.GetComponent<Animator>();
+    newAnimator.SetBool("blue", start_owner == player.B);
+    newAnimator.SetBool("industry", Policy == policy.industry);
+    singleUnitAnims.Add(newAnimator);
     Vector2 direction = target_region.centerpoint - (Vector2)transform.position;
     if (direction.x > 0) {
       Vector3 lEA = single_sr.transform.localEulerAngles;
@@ -84,14 +88,18 @@ public class moving_units : MonoBehaviour {
       return;
     }
 
-    // Industry units are slightly faster and larger
+    // Industry units are slightly faster and larger, and have different sprites
     if (Policy == policy.industry) {
       ds *= ind_ms_and_size_mult * ind_ms_and_size_mult;
       transform.localScale = init_local_scale * ind_ms_and_size_mult;
     } else {
       transform.localScale = init_local_scale;
     }
-    
+
+    foreach (Animator animator in singleUnitAnims) {
+      animator.SetBool("industry", Policy == policy.industry);
+    }
+
     // Small odds to affect nearby trees
     for (int i=0; i < single_unit_sr_total*single_unit_sr_total; i++) {
       float randFloat = Random.Range(0, 1f);
@@ -171,7 +179,11 @@ public class moving_units : MonoBehaviour {
     float delta_x = Random.Range(-sr_radius, sr_radius);
     float delta_y = Random.Range(-sr_radius, sr_radius);
     newSR.transform.position += new Vector3(delta_x, delta_y);
-    newSR.GetComponent<Animator>().SetBool("blue", start_owner == player.B);
+
+    Animator newAnim = newSR.GetComponent<Animator>();
+    newAnim.SetBool("blue", start_owner == player.B);
+    newAnim.SetBool("industry", Policy == policy.industry);
+    singleUnitAnims.Add(newAnim);
 
     single_unit_sr_total++;
   }

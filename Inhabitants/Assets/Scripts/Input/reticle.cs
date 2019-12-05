@@ -19,6 +19,9 @@ public class reticle : MonoBehaviour {
   public LineRenderer line_to_active_region;
   public SpriteRenderer arrow_cap;
 
+  public Sprite closed_cursor;
+  public Sprite open_cursor;
+
   // Hidden vars
   [HideInInspector]
   public XboxController controller;
@@ -52,9 +55,9 @@ public class reticle : MonoBehaviour {
     }
 
     // Init visuals
-    Color fadedCol = player_data.colors[(int)Owner];
-    fadedCol.a = sr.color.a;
-    sr.color = fadedCol;
+    //Color fadedCol = player_data.colors[(int)Owner];
+    //fadedCol.a = sr.color.a;
+    //sr.color = fadedCol;
 
     arrow_cap.color = player_data.colors[(int)Owner];
     line_to_active_region.startColor = player_data.colors[(int)Owner];
@@ -99,6 +102,7 @@ public class reticle : MonoBehaviour {
 
     // Update over_region using raycast, rather than trigger enter/exit
     update_over_region();
+    sr.sprite = (over_region != null && over_region.Owner == Owner) ? open_cursor : closed_cursor;
 
     // Update active_region
     if (rightStickAim.magnitude != 0 && over_region != null && over_region.Owner == Owner) {

@@ -14,9 +14,12 @@ public class deer_reps : MonoBehaviour {
 
   private float pause_timer = 0f;
 
+  private SpriteRenderer sr;
+
 
   // Start is called before the first frame update
   void Start() {
+    sr = GetComponent<SpriteRenderer>();
     target = NextDestination();
   }
 
@@ -31,6 +34,7 @@ public class deer_reps : MonoBehaviour {
     if (Vector2.Distance(transform.position, target) > ds) {
       Vector2 direction = target - (Vector2)transform.position;
       transform.Translate(direction.normalized * ds);
+      sr.flipX = (target.x - transform.position.x < 0);
       return;
     }
     target = NextDestination();
