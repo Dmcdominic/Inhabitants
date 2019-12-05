@@ -69,7 +69,7 @@ public class moving_units : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
-    if (PlayerManager.Gamestate == gamestate.empires_falling) {
+    if (PlayerManager.empires_clearing) {
       dummy_units = true;
     }
 

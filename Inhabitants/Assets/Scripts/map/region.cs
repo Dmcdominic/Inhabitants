@@ -74,7 +74,7 @@ public class region : MonoBehaviour {
   void Update() {
     units_real += growth_rate * Time.deltaTime;
     if (units_real <= 0) {
-      if (PlayerManager.Gamestate == gamestate.empires_falling) {
+      if (PlayerManager.empires_clearing) {
         Owner = player.none;
         units_real = 10;
       } else {
@@ -149,7 +149,7 @@ public class region : MonoBehaviour {
       }
       float current_rate = Mathf.Sqrt(units_real) / 12f + 0.2f;
 
-      float GS_mod = (PlayerManager.Gamestate == gamestate.empires_falling) ? -10f : 1f;
+      float GS_mod = PlayerManager.empires_clearing ? -10f : 1f;
 
       switch (Policy) {
         case policy.industry:

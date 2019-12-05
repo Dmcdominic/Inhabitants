@@ -14,7 +14,8 @@ public class MultiDisplayScript : MonoBehaviour {
   public int humanDisplay = 1;
   public int earthDisplay = 0;
 
-  public Canvas playerCanvas;
+  public Canvas playerCanvas1;
+  public Canvas playerCanvas2;
   public Canvas earthCanvas;
 
   public static bool singleDisplay;
@@ -52,7 +53,8 @@ public class MultiDisplayScript : MonoBehaviour {
     EarthCam.gameObject.SetActive(!singleDisplay);
     EarthCam.targetDisplay = earthDisplay;
 
-    playerCanvas.worldCamera = singleDisplay ? allSeeingCam : HumanCam;
+    playerCanvas1.worldCamera = singleDisplay ? allSeeingCam : HumanCam;
+    playerCanvas2.worldCamera = singleDisplay ? allSeeingCam : HumanCam;
     earthCanvas.worldCamera = singleDisplay ? allSeeingCam : EarthCam;
   }
 
@@ -69,7 +71,8 @@ public class MultiDisplayScript : MonoBehaviour {
     EarthCam.gameObject.SetActive(true);
     EarthCam.targetDisplay = 2;
 
-    playerCanvas.worldCamera = HumanCam;
+    playerCanvas1.worldCamera = HumanCam;
+    playerCanvas2.worldCamera = HumanCam;
     earthCanvas.worldCamera = EarthCam;
 
     // Delete the extra audio listener on the human camera

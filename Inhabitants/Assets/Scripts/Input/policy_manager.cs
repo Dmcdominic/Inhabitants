@@ -8,7 +8,12 @@ public enum policy { none, eco, neutral, industry };
 
 public class policy_manager : MonoBehaviour {
 
+#if UNITY_EDITOR
   public static policy[] policies = new policy[] { policy.none, policy.neutral, policy.neutral };
+#else
+  public static policy[] policies = new policy[] { policy.none, policy.neutral, policy.neutral };
+#endif
+
   public static int policiesCount = System.Enum.GetNames(typeof(policy)).Length;
 
   public List<SpriteRenderer> p1PolicyDisplays;

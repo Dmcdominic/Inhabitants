@@ -106,6 +106,7 @@ MonoBehaviour:
   gettingRainedOn: 0
   unit_text: {fileID: 362702776507753169}
   City: {fileID: 8376527504118341490}
+  raycast_orig_override: {fileID: 0}
   spriteOutline: {fileID: 0}
   road_Hub: {fileID: 0}
 --- !u!60 &362702775240425632
@@ -620,8 +621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 1607415590457174454}
-  industrySprite: {fileID: 21300000, guid: 3e9ac0a8c9c1cfa4f9b206ca974314ec, type: 3}
-  neutralSprite: {fileID: 21300000, guid: 3d2809f513d3edd4bb22c1281b1e3174, type: 3}
+  industrySprite: {fileID: 21300000, guid: e477e333d0916f8489bce96acb4ebd2c, type: 3}
+  neutralSprite: {fileID: 21300000, guid: 60608046edc5e084faa0b5edb67da94b, type: 3}
   ecoSprite: {fileID: 21300000, guid: 2859b5d487fbebf42afb366cbacb6dcb, type: 3}
   untakenSprite: {fileID: 21300000, guid: e84227ed7198ced4e8d198e36da0c835, type: 3}
   Region: {fileID: 0}

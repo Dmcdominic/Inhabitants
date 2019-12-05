@@ -5,13 +5,13 @@ using TMPro;
 using XboxCtrlrInput;
 using ReticleControlInput;
 
-public enum gamestate { start_to_join, playing, winscreen, empires_falling };
+public enum gamestate { start_to_join, playing, winscreen, empires_falling, sea_levels_rose };
 public enum winstate { none, eco, ind, tie };
 
 public class PlayerManager : MonoBehaviour {
   // Static settings
 #if UNITY_EDITOR
-  public const float human_playtime = 420f;
+  public const float human_playtime = 120f;
 #else
   public const float human_playtime = 420f;
 #endif
@@ -29,12 +29,14 @@ public class PlayerManager : MonoBehaviour {
   public TextMeshProUGUI timer_TMP;
   public TextMeshProUGUI winner_TMP;
   public TextMeshProUGUI empires_fall_TMP;
+  public TextMeshProUGUI sea_levels_rose_TMP;
 
   public static gamestate Gamestate;
-    public static winstate Winstate;
+  public static winstate Winstate;
 
   // Private vars
   private float timer = human_playtime;
+  private float sea_level_timer;
 
 
   // Start is called before the first frame update
@@ -45,7 +47,7 @@ public class PlayerManager : MonoBehaviour {
   // Initialize timer and human players game status
   private void init() {
     Gamestate = gamestate.start_to_join;
-	Winstate = winstate.none;
+    Winstate = winstate.none;
     p1Reticle.SetActive(false);
     p2Reticle.SetActive(false);
     p1JoinText.SetActive(true);
@@ -55,6 +57,7 @@ public class PlayerManager : MonoBehaviour {
     timer_TMP.gameObject.SetActive(false);
     winner_TMP.gameObject.SetActive(false);
     empires_fall_TMP.gameObject.SetActive(false);
+    sea_levels_rose_TMP.gameObject.SetActive(false);
 
     // Init region unit count
     foreach (region Region in region.allRegions) {
@@ -108,10 +111,14 @@ public class PlayerManager : MonoBehaviour {
         Gamestate = gamestate.winscreen;
         timer_TMP.gameObject.SetActive(false);
         winner_TMP.gameObject.SetActive(true);
-		if (pA_elim ? (policy_manager.policies[(int)player.B] == policy.industry)
-					: (policy_manager.policies[(int)player.A] == policy.industry))
-			Winstate = winstate.ind;
-		else Winstate = winstate.eco;
+
+        if (pA_elim ? (policy_manager.policies[(int)player.B] == policy.industry)
+              : (policy_manager.policies[(int)player.A] == policy.industry)) {
+          Winstate = winstate.ind;
+        } else {
+          Winstate = winstate.eco;
+        }
+
         string empire_won = pA_elim ? "Blue" : "Red";
         winner_TMP.text = "The " + empire_won + "  Empire  is  victorious";
         timer = winscreen_time;
@@ -128,7 +135,7 @@ public class PlayerManager : MonoBehaviour {
       } else {
         // Pull up tie screen
         Gamestate = gamestate.winscreen;
-		Winstate = winstate.tie;
+        Winstate = winstate.tie;
         timer_TMP.gameObject.SetActive(false);
         winner_TMP.gameObject.SetActive(true);
         winner_TMP.text = "Both empires live on...";
@@ -141,8 +148,21 @@ public class PlayerManager : MonoBehaviour {
     if (Gamestate == gamestate.winscreen) {
       timer -= Time.deltaTime;
       if (timer > 0) {
-        // This is fine
+        // This is fine. Waiting for delay to end
+      } else if (status_controller.instance.airLevel < 0.1 || status_controller.instance.temperatureLevel < 0.1) {
+        // Sea levels rose  
+        Gamestate = gamestate.sea_levels_rose;
+        winner_TMP.gameObject.SetActive(false);
+        sea_levels_rose_TMP.gameObject.SetActive(true);
+        sea_level_timer = human_playtime;
+        // Set TMP text based on if it's a tie, or one empire
+        if (Winstate == winstate.tie) {
+          sea_levels_rose_TMP.text = "But as sea levels rose, so each empire fell...";
+        } else {
+          sea_levels_rose_TMP.text = "But as sea levels rose, so the empire fell...";
+        }
       } else {
+        // Empires fall
         Gamestate = gamestate.empires_falling;
         winner_TMP.gameObject.SetActive(false);
         empires_fall_TMP.gameObject.SetActive(true);
@@ -160,9 +180,26 @@ public class PlayerManager : MonoBehaviour {
       }
 
       // Once it's over:
-      empires_fall_TMP.gameObject.SetActive(false);
       init();
       return;
+    }
+
+    // SEA LEVELS ROSE
+    if (Gamestate == gamestate.sea_levels_rose) {
+      sea_level_timer -= Time.deltaTime;
+      if (sea_level_timer > 0) {
+        // This is fine
+        if (sea_level_controller.idle) {
+          sea_levels_rose_TMP.text = "...and there was no land left to fight for";
+        }
+      } else if (Random.Range(0, 2) == 0) {
+        // Some chance for the sea levels to stay
+        sea_level_timer = 30;
+      } else {
+        // When this state ends
+        init();
+        return;
+      }
     }
   }
 
@@ -178,5 +215,12 @@ public class PlayerManager : MonoBehaviour {
     }
 
     timer_TMP.text = S_minutes + ":" + S_seconds;
+  }
+
+  // Returns true iff empires are getting cleared
+  public static bool empires_clearing {
+    get {
+      return (Gamestate == gamestate.empires_falling || Gamestate == gamestate.sea_levels_rose);
+    }
   }
 }

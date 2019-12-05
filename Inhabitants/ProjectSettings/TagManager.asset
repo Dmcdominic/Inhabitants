@@ -65,6 +65,9 @@ TagManager:
   - name: HUD
     uniqueID: 3636465397
     locked: 0
+  - name: Sea Levels
+    uniqueID: 2740979969
+    locked: 0
   - name: Smog
     uniqueID: 2393780825
     locked: 0
