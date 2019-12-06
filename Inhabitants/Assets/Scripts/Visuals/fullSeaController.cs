@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class fullSeaController : MonoBehaviour {
 
-  // Settings
-  private const float frame_interval = 1.7f;
-
   // Public fields
   public Sprite[] frames;
 
@@ -23,8 +20,7 @@ public class fullSeaController : MonoBehaviour {
     sr = GetComponent<SpriteRenderer>();
     sr.sprite = frames[0];
     current_frame = 0;
-
-    next_frame_time = frame_interval;
+    next_frame_time = 0;
   }
 
   // Update is called once per frame
@@ -32,7 +28,7 @@ public class fullSeaController : MonoBehaviour {
     if (Time.time > next_frame_time) {
       current_frame = (current_frame + 1) % frames.Length;
       sr.sprite = frames[current_frame];
-      next_frame_time = Time.time + frame_interval;
+      next_frame_time = Time.time + (mapAnim.frame_interval * 1.5f);
     }
   }
 }

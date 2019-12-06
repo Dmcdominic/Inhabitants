@@ -50,6 +50,8 @@ public class wolf : MonoBehaviour {
       colony_num += colony_increase_rate;
     }
 
+    colony_num = Mathf.Clamp(colony_num, 0f, max_colony_num);
+
     // Enable/disable wolf representations
     float per = colony_num / max_colony_num;
     for (int i = 1; i < wolf_r.Count; i++) {

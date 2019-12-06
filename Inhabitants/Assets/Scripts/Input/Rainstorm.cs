@@ -5,7 +5,7 @@ using XboxCtrlrInput;
 public class Rainstorm : MonoBehaviour {
 
   public float rainstorm_time = 5.0f;
-  public float delta = 50f;
+  public float delta = 10f;
   public float radius = 1f;
 
   // Private vars

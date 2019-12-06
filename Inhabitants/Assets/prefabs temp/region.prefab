@@ -597,7 +597,7 @@ SpriteRenderer:
   m_SortingLayerID: -240041571
   m_SortingLayer: 2
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: e84227ed7198ced4e8d198e36da0c835, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b04437c697d68d349ba381842651db20, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -624,6 +624,6 @@ MonoBehaviour:
   industrySprite: {fileID: 21300000, guid: e477e333d0916f8489bce96acb4ebd2c, type: 3}
   neutralSprite: {fileID: 21300000, guid: 60608046edc5e084faa0b5edb67da94b, type: 3}
   ecoSprite: {fileID: 21300000, guid: 2859b5d487fbebf42afb366cbacb6dcb, type: 3}
-  untakenSprite: {fileID: 21300000, guid: e84227ed7198ced4e8d198e36da0c835, type: 3}
+  untakenSprite: {fileID: 21300000, guid: b04437c697d68d349ba381842651db20, type: 3}
   Region: {fileID: 0}
   Policy: 0

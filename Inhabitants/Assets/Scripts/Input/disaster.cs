@@ -10,7 +10,7 @@ public class disaster : MonoBehaviour {
   public GameObject disaster_indicator;
   public GameObject earthquake_prefab;
 
-  public static float earthquake_radius = 0.7f;
+  public static float earthquake_radius = 0.8f;
   public static disaster instance;
 
 
@@ -28,6 +28,8 @@ public class disaster : MonoBehaviour {
   public static void causeDisaster(Vector2 pos, float radius) {
     Instantiate(instance.earthquake_prefab, pos, instance.earthquake_prefab.transform.rotation, null);
     cell_controller.instance.growTrees(pos, radius, -1);
+    cell_controller.instance.growTrees(pos, radius * 1.2f, -0.3f);
+    cell_controller.instance.growTrees(pos, radius * 1.5f, -0.3f);
     foreach (region Region in region.allRegions) {
       if (Vector2.Distance(pos, Region.centerpoint) <= radius) {
         if (Region.Owner != player.none && Region.units > unit_impact) {

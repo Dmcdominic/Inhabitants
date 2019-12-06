@@ -11,7 +11,7 @@ public enum winstate { none, eco, ind, tie };
 public class PlayerManager : MonoBehaviour {
   // Static settings
 #if UNITY_EDITOR
-  public const float human_playtime = 120f;
+  public const float human_playtime = 60f;
 #else
   public const float human_playtime = 420f;
 #endif
@@ -138,7 +138,7 @@ public class PlayerManager : MonoBehaviour {
         Winstate = winstate.tie;
         timer_TMP.gameObject.SetActive(false);
         winner_TMP.gameObject.SetActive(true);
-        winner_TMP.text = "Both empires live on...";
+        winner_TMP.text = "Both empires lived on...";
         timer = winscreen_time;
       }
       return;
