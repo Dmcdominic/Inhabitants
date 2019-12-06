@@ -11,6 +11,10 @@ public class controlsDisplayController : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+    if (PlayerManager.Gamestate == gamestate.sea_levels_rose) {
+      return;
+    }
+
     if (humans) {
       bool p1Back = RCI.GetButton(XboxCtrlrInput.XboxButton.Back, player_data.controllers[(int)player.A]);
       bool p2Back = RCI.GetButton(XboxCtrlrInput.XboxButton.Back, player_data.controllers[(int)player.B]);

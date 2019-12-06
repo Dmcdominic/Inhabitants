@@ -15,6 +15,9 @@ public class moving_units : MonoBehaviour {
 
   private const float ind_ms_and_size_mult = 1.25f;
 
+  private const float eaten_by_wolves_odds = 0.01f;
+  private const float harm_deer_odds = 0.02f;
+
   // Components
   public region target_region;
   public player start_owner;
@@ -110,6 +113,28 @@ public class moving_units : MonoBehaviour {
           cell_controller.instance.growTrees(transform.position, tree_effect_radius, tree_grow_delta);
         }
         break;
+      }
+    }
+
+    // Small odds to get eaten by wolves
+    if (Policy != policy.eco && Random.Range(0, 1f) <= eaten_by_wolves_odds / units) {
+      Collider2D[] nearObjects = Physics2D.OverlapCircleAll(transform.position, 0.01f);
+      foreach (Collider2D obj in nearObjects) {
+        if (obj != null && obj.name == "wolf") {
+          Destroy(gameObject);
+          break;
+        }
+      }
+    }
+
+    // Small odds to harm deer
+    if (Policy != policy.eco && Random.Range(0, 1f) <= harm_deer_odds) {
+      Collider2D[] nearObjects = Physics2D.OverlapCircleAll(transform.position, 0.01f);
+      foreach (Collider2D obj in nearObjects) {
+        if (obj != null && obj.name == "deer") {
+          obj.GetComponent<deer>().hurt_deer();
+          break;
+        }
       }
     }
 

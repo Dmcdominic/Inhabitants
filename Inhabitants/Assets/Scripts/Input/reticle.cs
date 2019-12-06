@@ -9,7 +9,7 @@ public class reticle : MonoBehaviour {
   // Static settings
   private static float speed_mult = 4f;
   private static float speed_cap = 3.5f;
-  private static float earth_speed_adj = 0.75f;
+  private static float earth_speed_adj = 0.65f;
 
   private static float raycast_radius = 0.18f;
   private static float rTrigger_thresh = 0.25f;

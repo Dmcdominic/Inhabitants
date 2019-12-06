@@ -76,7 +76,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -185,9 +185,12 @@ MonoBehaviour:
   ecoVictory: {fileID: 8300000, guid: 4f16a29b9aa0d469087c49c30734ccb7, type: 3}
   indVictory: {fileID: 8300000, guid: 6ab39ec3234af46f380ad66e2fb8de9b, type: 3}
   tie: {fileID: 8300000, guid: d4aecfcc2af75426ea3ef154ae0cd248, type: 3}
+  waves: {fileID: 8300000, guid: 81567eb60849e4c4fa5e39ae48e290f9, type: 3}
   ecoCutoff: 0.45
   indCutoff: 0.55
   industryLevel: 0
+  indPlayed: 0
+  gameEnded: 1
 --- !u!1 &8518114234521765618
 GameObject:
   m_ObjectHideFlags: 0

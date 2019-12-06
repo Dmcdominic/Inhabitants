@@ -39,6 +39,9 @@ public class earthquake : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+    // Make sure rotation isn't off
+    transform.rotation = Quaternion.identity;
+
     // Update position
     float rand_x = Random.Range(-1f, 1f) * shake_radius * (dummy_reticle_quake ? dummy_shake_dampen : 1f);
     float rand_y = Random.Range(-1f, 1f) * shake_radius * (dummy_reticle_quake ? dummy_shake_dampen : 1f);

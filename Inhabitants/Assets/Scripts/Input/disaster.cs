@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class disaster : MonoBehaviour {
   private const int unit_impact = 25;
+  private const float unit_percent_impact = 0.2f;
 
   private static bool disaster_queued = false;
 
@@ -32,6 +33,7 @@ public class disaster : MonoBehaviour {
     cell_controller.instance.growTrees(pos, radius * 1.5f, -0.3f);
     foreach (region Region in region.allRegions) {
       if (Vector2.Distance(pos, Region.centerpoint) <= radius) {
+        Region.units -= Mathf.FloorToInt(Region.units * unit_percent_impact);
         if (Region.Owner != player.none && Region.units > unit_impact) {
           Region.units -= unit_impact;
         } else {

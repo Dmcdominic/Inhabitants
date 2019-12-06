@@ -8,11 +8,7 @@ public enum policy { none, eco, neutral, industry };
 
 public class policy_manager : MonoBehaviour {
 
-#if UNITY_EDITOR
   public static policy[] policies = new policy[] { policy.none, policy.neutral, policy.neutral };
-#else
-  public static policy[] policies = new policy[] { policy.none, policy.neutral, policy.neutral };
-#endif
 
   public static int policiesCount = System.Enum.GetNames(typeof(policy)).Length;
 
@@ -22,6 +18,10 @@ public class policy_manager : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+    if (PlayerManager.Gamestate == gamestate.sea_levels_rose) {
+      return;
+    }
+
     // Take in player input for switching policies
     for (int i = 0; i < 2; i++) {
       int Player = (i == 0) ? (int)player.A : (int)player.B;
@@ -70,10 +70,10 @@ public class policy_manager : MonoBehaviour {
       sr.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     }
   }
-  
+
   // Activates a new bonus display and deactivates the previous one
   private void ChangePolicyBonusDisplay(int playerNum, int oldPolicy, policy newPolicy) {
-    transform.GetChild(playerNum).GetChild(Mathf.Abs((int) oldPolicy - 4)).GetChild(0).gameObject.SetActive(false);
-    transform.GetChild(playerNum).GetChild(Mathf.Abs((int) newPolicy - 4)).GetChild(0).gameObject.SetActive(true);
+    transform.GetChild(playerNum).GetChild(Mathf.Abs((int)oldPolicy - 4)).GetChild(0).gameObject.SetActive(false);
+    transform.GetChild(playerNum).GetChild(Mathf.Abs((int)newPolicy - 4)).GetChild(0).gameObject.SetActive(true);
   }
 }

@@ -72,7 +72,7 @@ public class deer : MonoBehaviour {
     }
     
     
-    //check if there are wolves nearby; if so, decrease size of colony 
+    //check if there are wolves nearby; if so, decrease size of colony
     Collider2D[] nearObjects = Physics2D.OverlapCircleAll(transform.position, radius);
     foreach (Collider2D obj in nearObjects) {
       if (obj != null && obj.name == "wolf") {
@@ -92,4 +92,7 @@ public class deer : MonoBehaviour {
     }
   }
 
+  public void hurt_deer(float fraction_killed = 0.2f) {
+    colony_num -= colony_num * fraction_killed;
+  }
 }
