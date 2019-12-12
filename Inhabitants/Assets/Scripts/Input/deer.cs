@@ -10,7 +10,7 @@ public class deer : MonoBehaviour {
   private const float max_colony_num = 100f;
   private const float min_colony_num = max_colony_num / 4f;
   private const float colony_adjust_rate = 15f;
-  private const float base_growth = 1.3f;
+  private const float base_growth = 1.15f;
 
   private CircleCollider2D cc;
   public float radius = 1f;
@@ -51,7 +51,7 @@ public class deer : MonoBehaviour {
     //parameters
     float tree_decrease_rate = -Time.deltaTime * colony_num * 0.001f;
     float tree_spread_rate = Time.deltaTime * baby_colony_num * 0.8f;
-    float wolf_kill_rate = 2f * Time.deltaTime;
+    float wolf_kill_rate = 4f * Time.deltaTime;
 
     // Spread trees within the radius
     cell_controller.instance.growTrees(transform.position, radius, tree_decrease_rate);
@@ -79,6 +79,13 @@ public class deer : MonoBehaviour {
         colony_num -= wolf_kill_rate;
       }
     }
+
+    // Deer should die quickly when sea levels have risen
+    if (PlayerManager.Gamestate == gamestate.sea_levels_rose) {
+      colony_num -= max_colony_num * Time.deltaTime;
+    }
+
+    colony_num = Mathf.Clamp(colony_num, 0f, max_colony_num);
 
     // Enable/disable deer representations
     float per = colony_num / max_colony_num;

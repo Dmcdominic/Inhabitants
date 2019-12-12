@@ -5,7 +5,8 @@ using UnityEngine;
 public class wolf : MonoBehaviour {
   public wolf_reps wolf_rep;
   public float colony_num = 50f;
-  private float max_colony_num = 50f;
+  private const float max_colony_num = 50f;
+  private const float min_colony_num = max_colony_num / 5f;
   private CircleCollider2D cc;
   public float radius = 1f;
   private List<wolf_reps> wolf_r = new List<wolf_reps>();
@@ -50,6 +51,11 @@ public class wolf : MonoBehaviour {
       colony_num += colony_increase_rate;
     }
 
+    // Wolves should die quickly when sea levels have risen
+    if (PlayerManager.Gamestate == gamestate.sea_levels_rose) {
+      colony_num -= max_colony_num * Time.deltaTime;
+    }
+
     colony_num = Mathf.Clamp(colony_num, 0f, max_colony_num);
 
     // Enable/disable wolf representations
@@ -59,7 +65,7 @@ public class wolf : MonoBehaviour {
     }
 
     //if there are no wolves left
-    if (colony_num <= 0) {
+    if (colony_num <= min_colony_num) {
       Destroy(gameObject);
     }
   }

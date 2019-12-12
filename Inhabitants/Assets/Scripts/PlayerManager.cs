@@ -11,7 +11,7 @@ public enum winstate { none, eco, ind, tie };
 public class PlayerManager : MonoBehaviour {
   // Static settings
 #if UNITY_EDITOR
-  public const float human_playtime = 180f;
+  public const float human_playtime = 10f;
 #else
   public const float human_playtime = 420f;
 #endif

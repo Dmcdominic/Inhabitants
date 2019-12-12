@@ -25,6 +25,12 @@ public class disaster : MonoBehaviour {
     //regions = FindObjectsOfType<region>();
   }
 
+  private void Update() {
+    if (PlayerManager.Gamestate == gamestate.sea_levels_rose) {
+      setDisaster(false);
+    }
+  }
+
   //Disaster logic, destroys trees and units in a region
   public static void causeDisaster(Vector2 pos, float radius) {
     Instantiate(instance.earthquake_prefab, pos, instance.earthquake_prefab.transform.rotation, null);
